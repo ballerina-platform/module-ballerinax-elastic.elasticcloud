@@ -37,7 +37,10 @@ public isolated client class Client {
     # + return - Account fetched successfully 
     resource isolated function get account(map<string|string[]> headers = {}) returns AccountResponse|error {
         string resourcePath = string `/account`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Updates the current account
@@ -47,10 +50,13 @@ public isolated client class Client {
     # + return - Account updated successfully 
     resource isolated function put account(AccountUpdateRequest payload, map<string|string[]> headers = {}) returns AccountResponse|error {
         string resourcePath = string `/account`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->put(resourcePath, request, headers);
+        return self.clientEp->put(resourcePath, request, httpHeaders);
     }
 
     # Updates the current account
@@ -60,10 +66,13 @@ public isolated client class Client {
     # + return - Account updated successfully 
     resource isolated function patch account(string payload, map<string|string[]> headers = {}) returns AccountResponse|error {
         string resourcePath = string `/account`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->patch(resourcePath, request, headers);
+        return self.clientEp->patch(resourcePath, request, httpHeaders);
     }
 
     # Get costs overview for the organization. Currently unavailable in self-hosted ECE.
@@ -78,7 +87,10 @@ public isolated client class Client {
     resource isolated function get billing/costs/[string organizationId](map<string|string[]> headers = {}, *GetCostsOverviewQueries queries) returns CostsOverview|error {
         string resourcePath = string `/billing/costs/${getEncodedUri(organizationId)}`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Get charts for the organization. Currently unavailable in self-hosted ECE.
@@ -93,7 +105,10 @@ public isolated client class Client {
     resource isolated function get billing/costs/[string organizationId]/charts(map<string|string[]> headers = {}, *GetCostsChartsQueries queries) returns ChartItems|error {
         string resourcePath = string `/billing/costs/${getEncodedUri(organizationId)}/charts`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Get deployments costs for the organization. Currently unavailable in self-hosted ECE.
@@ -108,7 +123,9 @@ public isolated client class Client {
     resource isolated function get billing/costs/[string organizationId]/deployments(GetCostsDeploymentsHeaders headers = {}, *GetCostsDeploymentsQueries queries) returns DeploymentsCosts|error {
         string resourcePath = string `/billing/costs/${getEncodedUri(organizationId)}/deployments`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        map<string|string[]> httpHeaders = http:getHeaderMap(headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
@@ -125,7 +142,10 @@ public isolated client class Client {
     resource isolated function get billing/costs/[string organizationId]/deployments/[string deploymentId]/charts(map<string|string[]> headers = {}, *GetCostsChartsByDeploymentQueries queries) returns ChartItems|error {
         string resourcePath = string `/billing/costs/${getEncodedUri(organizationId)}/deployments/${getEncodedUri(deploymentId)}/charts`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Get itemized costs by deployments. Currently unavailable in self-hosted ECE.
@@ -141,7 +161,9 @@ public isolated client class Client {
     resource isolated function get billing/costs/[string organizationId]/deployments/[string deploymentId]/items(GetCostsItemsByDeploymentHeaders headers = {}, *GetCostsItemsByDeploymentQueries queries) returns ItemsCosts|error {
         string resourcePath = string `/billing/costs/${getEncodedUri(organizationId)}/deployments/${getEncodedUri(deploymentId)}/items`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        map<string|string[]> httpHeaders = http:getHeaderMap(headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
@@ -157,7 +179,10 @@ public isolated client class Client {
     resource isolated function get billing/costs/[string organizationId]/items(map<string|string[]> headers = {}, *GetCostsItemsQueries queries) returns ItemsCosts|error {
         string resourcePath = string `/billing/costs/${getEncodedUri(organizationId)}/items`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # List Deployments
@@ -166,7 +191,10 @@ public isolated client class Client {
     # + return - The list of deployments that belong to the authenticated user 
     resource isolated function get deployments(map<string|string[]> headers = {}) returns DeploymentsListResponse|error {
         string resourcePath = string `/deployments`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Create Deployment
@@ -178,10 +206,13 @@ public isolated client class Client {
     resource isolated function post deployments(DeploymentCreateRequest payload, map<string|string[]> headers = {}, *CreateDeploymentQueries queries) returns DeploymentCreateResponse|error {
         string resourcePath = string `/deployments`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Search Deployments
@@ -193,10 +224,13 @@ public isolated client class Client {
     resource isolated function post deployments/_search(SearchRequest payload, map<string|string[]> headers = {}, *SearchDeploymentsQueries queries) returns DeploymentsSearchResponse|error {
         string resourcePath = string `/deployments/_search`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Get eligible remote clusters
@@ -208,10 +242,13 @@ public isolated client class Client {
     resource isolated function post deployments/eligible\-remote\-clusters(SearchRequest payload, map<string|string[]> headers = {}, *SearchEligibleRemoteClustersQueries queries) returns DeploymentsSearchResponse|error {
         string resourcePath = string `/deployments/eligible-remote-clusters`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # List Extensions
@@ -220,7 +257,10 @@ public isolated client class Client {
     # + return - The extensions that are available 
     resource isolated function get deployments/extensions(map<string|string[]> headers = {}) returns Extensions|error {
         string resourcePath = string `/deployments/extensions`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Create an extension
@@ -230,10 +270,13 @@ public isolated client class Client {
     # + return - The extension that was just created 
     resource isolated function post deployments/extensions(CreateExtensionRequest payload, map<string|string[]> headers = {}) returns Extension|error {
         string resourcePath = string `/deployments/extensions`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Get Extension
@@ -245,7 +288,10 @@ public isolated client class Client {
     resource isolated function get deployments/extensions/[string extensionId](map<string|string[]> headers = {}, *GetExtensionQueries queries) returns Extension|error {
         string resourcePath = string `/deployments/extensions/${getEncodedUri(extensionId)}`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Uploads the Extension
@@ -255,10 +301,13 @@ public isolated client class Client {
     # + return - Archive uploaded successfully 
     resource isolated function put deployments/extensions/[string extensionId](ExtensionsextensionIdBody payload, map<string|string[]> headers = {}) returns Extension|error {
         string resourcePath = string `/deployments/extensions/${getEncodedUri(extensionId)}`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         mime:Entity[] bodyParts = check createBodyParts(check jsondata:toJson(payload).ensureType());
         request.setBodyParts(bodyParts);
-        return self.clientEp->put(resourcePath, request, headers);
+        return self.clientEp->put(resourcePath, request, httpHeaders);
     }
 
     # Update Extension
@@ -269,10 +318,13 @@ public isolated client class Client {
     # + return - Extension updated successfully 
     resource isolated function post deployments/extensions/[string extensionId](UpdateExtensionRequest payload, map<string|string[]> headers = {}) returns Extension|error {
         string resourcePath = string `/deployments/extensions/${getEncodedUri(extensionId)}`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Delete Extension
@@ -282,7 +334,10 @@ public isolated client class Client {
     # + return - Extension deleted successfully 
     resource isolated function delete deployments/extensions/[string extensionId](map<string|string[]> headers = {}) returns EmptyResponse|error {
         string resourcePath = string `/deployments/extensions/${getEncodedUri(extensionId)}`;
-        return self.clientEp->delete(resourcePath, headers = headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
     # Get deployment templates
@@ -293,7 +348,10 @@ public isolated client class Client {
     resource isolated function get deployments/templates(map<string|string[]> headers = {}, *GetDeploymentTemplatesV2Queries queries) returns DeploymentTemplateInfoV2[]|error {
         string resourcePath = string `/deployments/templates`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Get deployment template
@@ -305,7 +363,10 @@ public isolated client class Client {
     resource isolated function get deployments/templates/[string templateId](map<string|string[]> headers = {}, *GetDeploymentTemplateV2Queries queries) returns DeploymentTemplateInfoV2|error {
         string resourcePath = string `/deployments/templates/${getEncodedUri(templateId)}`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Get associated rulesets
@@ -316,7 +377,10 @@ public isolated client class Client {
     # + return - Rulesets in the deployment were successfully returned 
     resource isolated function get deployments/traffic\-filter/associations/[string associationType]/[string associatedEntityId]/rulesets(map<string|string[]> headers = {}) returns TrafficFilterSettings|error {
         string resourcePath = string `/deployments/traffic-filter/associations/${getEncodedUri(associationType)}/${getEncodedUri(associatedEntityId)}/rulesets`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # List traffic filter claimed link id
@@ -327,7 +391,10 @@ public isolated client class Client {
     resource isolated function get deployments/traffic\-filter/link\-ids(map<string|string[]> headers = {}, *GetTrafficFilterClaimedLinkIdsQueries queries) returns TrafficFilterClaimedLinkIds|error {
         string resourcePath = string `/deployments/traffic-filter/link-ids`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Claim a link id
@@ -337,10 +404,13 @@ public isolated client class Client {
     # + return - The ruleset definition is valid and the creation has started 
     resource isolated function post deployments/traffic\-filter/link\-ids/_claim(TrafficFilterClaimedLinkIdRequest payload, map<string|string[]> headers = {}) returns TrafficFilterClaimedLinkIdInfo|error {
         string resourcePath = string `/deployments/traffic-filter/link-ids/_claim`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Unclaims a link id
@@ -350,10 +420,13 @@ public isolated client class Client {
     # + return - The claimed link id was successfully deleted 
     resource isolated function post deployments/traffic\-filter/link\-ids/_unclaim(TrafficFilterClaimedLinkIdRequest payload, map<string|string[]> headers = {}) returns EmptyResponse|error {
         string resourcePath = string `/deployments/traffic-filter/link-ids/_unclaim`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # List traffic filter rulesets
@@ -364,7 +437,10 @@ public isolated client class Client {
     resource isolated function get deployments/traffic\-filter/rulesets(map<string|string[]> headers = {}, *GetTrafficFilterRulesetsQueries queries) returns TrafficFilterRulesets|error {
         string resourcePath = string `/deployments/traffic-filter/rulesets`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Create a ruleset
@@ -374,10 +450,13 @@ public isolated client class Client {
     # + return - The ruleset definition is valid and the creation has started 
     resource isolated function post deployments/traffic\-filter/rulesets(TrafficFilterRulesetRequest payload, map<string|string[]> headers = {}) returns TrafficFilterRulesetResponse|error {
         string resourcePath = string `/deployments/traffic-filter/rulesets`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Retrieves the ruleset by ID.
@@ -389,7 +468,10 @@ public isolated client class Client {
     resource isolated function get deployments/traffic\-filter/rulesets/[string rulesetId](map<string|string[]> headers = {}, *GetTrafficFilterRulesetQueries queries) returns TrafficFilterRulesetInfo|error {
         string resourcePath = string `/deployments/traffic-filter/rulesets/${getEncodedUri(rulesetId)}`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Updates a ruleset
@@ -400,10 +482,13 @@ public isolated client class Client {
     # + return - The ruleset definition was valid and the update has started 
     resource isolated function put deployments/traffic\-filter/rulesets/[string rulesetId](TrafficFilterRulesetRequest payload, map<string|string[]> headers = {}) returns TrafficFilterRulesetResponse|error {
         string resourcePath = string `/deployments/traffic-filter/rulesets/${getEncodedUri(rulesetId)}`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->put(resourcePath, request, headers);
+        return self.clientEp->put(resourcePath, request, httpHeaders);
     }
 
     # Delete a ruleset
@@ -415,7 +500,10 @@ public isolated client class Client {
     resource isolated function delete deployments/traffic\-filter/rulesets/[string rulesetId](map<string|string[]> headers = {}, *DeleteTrafficFilterRulesetQueries queries) returns EmptyResponse|error {
         string resourcePath = string `/deployments/traffic-filter/rulesets/${getEncodedUri(rulesetId)}`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->delete(resourcePath, headers = headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
     # Get associated deployments
@@ -425,7 +513,10 @@ public isolated client class Client {
     # + return - Associations referred by traffic filter rulesets were successfully returned 
     resource isolated function get deployments/traffic\-filter/rulesets/[string rulesetId]/associations(map<string|string[]> headers = {}) returns RulesetAssociations|error {
         string resourcePath = string `/deployments/traffic-filter/rulesets/${getEncodedUri(rulesetId)}/associations`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Create ruleset association
@@ -436,10 +527,13 @@ public isolated client class Client {
     # + return - Create association request was valid and the association already exists 
     resource isolated function post deployments/traffic\-filter/rulesets/[string rulesetId]/associations(FilterAssociation payload, map<string|string[]> headers = {}) returns EmptyResponse|error {
         string resourcePath = string `/deployments/traffic-filter/rulesets/${getEncodedUri(rulesetId)}/associations`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Delete ruleset association
@@ -451,7 +545,10 @@ public isolated client class Client {
     # + return - Delete association request was valid and the association has been deleted 
     resource isolated function delete deployments/traffic\-filter/rulesets/[string rulesetId]/associations/[string associationType]/[string associatedEntityId](map<string|string[]> headers = {}) returns EmptyResponse|error {
         string resourcePath = string `/deployments/traffic-filter/rulesets/${getEncodedUri(rulesetId)}/associations/${getEncodedUri(associationType)}/${getEncodedUri(associatedEntityId)}`;
-        return self.clientEp->delete(resourcePath, headers = headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
     # Get Deployment
@@ -463,7 +560,10 @@ public isolated client class Client {
     resource isolated function get deployments/[string deploymentId](map<string|string[]> headers = {}, *GetDeploymentQueries queries) returns DeploymentGetResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Update Deployment
@@ -476,10 +576,13 @@ public isolated client class Client {
     resource isolated function put deployments/[string deploymentId](DeploymentUpdateRequest payload, map<string|string[]> headers = {}, *UpdateDeploymentQueries queries) returns DeploymentUpdateResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->put(resourcePath, request, headers);
+        return self.clientEp->put(resourcePath, request, httpHeaders);
     }
 
     # Restores a shutdown Deployment
@@ -491,8 +594,11 @@ public isolated client class Client {
     resource isolated function post deployments/[string deploymentId]/_restore(map<string|string[]> headers = {}, *RestoreDeploymentQueries queries) returns DeploymentRestoreResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/_restore`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Shuts down Deployment
@@ -504,8 +610,11 @@ public isolated client class Client {
     resource isolated function post deployments/[string deploymentId]/_shutdown(map<string|string[]> headers = {}, *ShutdownDeploymentQueries queries) returns DeploymentShutdownResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/_shutdown`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Get Deployment APM Resource Info
@@ -518,7 +627,10 @@ public isolated client class Client {
     resource isolated function get deployments/[string deploymentId]/apm/[string refId](map<string|string[]> headers = {}, *GetDeploymentApmResourceInfoQueries queries) returns ApmResourceInfo|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/apm/${getEncodedUri(refId)}`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Reset the secret token for an APM resource.
@@ -529,8 +641,11 @@ public isolated client class Client {
     # + return - Response containing the new secret token, plan to apply it starts 
     resource isolated function post deployments/[string deploymentId]/apm/[string refId]/_reset\-token(map<string|string[]> headers = {}) returns ApmCrudResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/apm/${getEncodedUri(refId)}/_reset-token`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Get Deployment App Search Resource Info
@@ -543,7 +658,10 @@ public isolated client class Client {
     resource isolated function get deployments/[string deploymentId]/appsearch/[string refId](map<string|string[]> headers = {}, *GetDeploymentAppsearchResourceInfoQueries queries) returns AppSearchResourceInfo|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/appsearch/${getEncodedUri(refId)}`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Set AppSearch read-only status
@@ -554,7 +672,10 @@ public isolated client class Client {
     # + return - Standard response 
     resource isolated function get deployments/[string deploymentId]/appsearch/[string refId]/read_only_mode(map<string|string[]> headers = {}) returns ReadOnlyResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/appsearch/${getEncodedUri(refId)}/read_only_mode`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Set AppSearch read-only status
@@ -566,10 +687,13 @@ public isolated client class Client {
     # + return - Standard response 
     resource isolated function put deployments/[string deploymentId]/appsearch/[string refId]/read_only_mode(ReadOnlyRequest payload, map<string|string[]> headers = {}) returns ReadOnlyResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/appsearch/${getEncodedUri(refId)}/read_only_mode`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->put(resourcePath, request, headers);
+        return self.clientEp->put(resourcePath, request, httpHeaders);
     }
 
     # Get certificate authority
@@ -579,7 +703,10 @@ public isolated client class Client {
     # + return - The certificate authority used to sign the certificates of this deployment 
     resource isolated function get deployments/[string deploymentId]/certificate\-authority(map<string|string[]> headers = {}) returns CertificateAuthority|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/certificate-authority`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Get Deployment Elasticsearch Resource Info
@@ -592,7 +719,10 @@ public isolated client class Client {
     resource isolated function get deployments/[string deploymentId]/elasticsearch/[string refId](map<string|string[]> headers = {}, *GetDeploymentEsResourceInfoQueries queries) returns ElasticsearchResourceInfo|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/elasticsearch/${getEncodedUri(refId)}`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Migrate Elasticsearch and associated Kibana resources to enable CCR
@@ -605,8 +735,11 @@ public isolated client class Client {
     resource isolated function post deployments/[string deploymentId]/elasticsearch/[string refId]/_enable\-ccr(map<string|string[]> headers = {}, *EnableDeploymentResourceCcrQueries queries) returns DeploymentResourceCommandResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/elasticsearch/${getEncodedUri(refId)}/_enable-ccr`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Migrate Elasticsearch resource to use ILM
@@ -620,10 +753,13 @@ public isolated client class Client {
     resource isolated function post deployments/[string deploymentId]/elasticsearch/[string refId]/_enable\-ilm(EnableIlmRequest payload, map<string|string[]> headers = {}, *EnableDeploymentResourceIlmQueries queries) returns DeploymentResourceCommandResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/elasticsearch/${getEncodedUri(refId)}/_enable-ilm`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Migrate Elasticsearch resource to use SLM
@@ -636,8 +772,11 @@ public isolated client class Client {
     resource isolated function post deployments/[string deploymentId]/elasticsearch/[string refId]/_enable\-slm(map<string|string[]> headers = {}, *EnableDeploymentResourceSlmQueries queries) returns DeploymentResourceCommandResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/elasticsearch/${getEncodedUri(refId)}/_enable-slm`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Reset 'elastic' user password
@@ -650,8 +789,11 @@ public isolated client class Client {
     resource isolated function post deployments/[string deploymentId]/elasticsearch/[string refId]/_reset\-password(map<string|string[]> headers = {}, *ResetElasticsearchUserPasswordQueries queries) returns ElasticsearchElasticUserPasswordResetResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/elasticsearch/${getEncodedUri(refId)}/_reset-password`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Restart Deployment Elasticsearch Resource
@@ -664,8 +806,11 @@ public isolated client class Client {
     resource isolated function post deployments/[string deploymentId]/elasticsearch/[string refId]/_restart(map<string|string[]> headers = {}, *RestartDeploymentEsResourceQueries queries) returns DeploymentResourceCommandResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/elasticsearch/${getEncodedUri(refId)}/_restart`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Shutdown Deployment Elasticsearch Resource
@@ -678,8 +823,11 @@ public isolated client class Client {
     resource isolated function post deployments/[string deploymentId]/elasticsearch/[string refId]/_shutdown(map<string|string[]> headers = {}, *ShutdownDeploymentEsResourceQueries queries) returns DeploymentResourceCommandResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/elasticsearch/${getEncodedUri(refId)}/_shutdown`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Get eligible remote clusters
@@ -691,10 +839,13 @@ public isolated client class Client {
     # + return - List of deployments which contains eligible remote clusters for the resource 
     resource isolated function post deployments/[string deploymentId]/elasticsearch/[string refId]/eligible\-remote\-clusters(SearchRequest payload, map<string|string[]> headers = {}) returns DeploymentsSearchResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/elasticsearch/${getEncodedUri(refId)}/eligible-remote-clusters`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Get the items in the Elasticsearch resource keystore
@@ -705,7 +856,10 @@ public isolated client class Client {
     # + return - The contents of the Elasticsearch keystore, with values redacted 
     resource isolated function get deployments/[string deploymentId]/elasticsearch/[string refId]/keystore(map<string|string[]> headers = {}) returns KeystoreContents|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/elasticsearch/${getEncodedUri(refId)}/keystore`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Add or remove items from the Elasticsearch resource keystore
@@ -717,10 +871,13 @@ public isolated client class Client {
     # + return - The new contents of the Elasticsearch keystore 
     resource isolated function patch deployments/[string deploymentId]/elasticsearch/[string refId]/keystore(KeystoreContents payload, map<string|string[]> headers = {}) returns KeystoreContents|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/elasticsearch/${getEncodedUri(refId)}/keystore`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->patch(resourcePath, request, headers);
+        return self.clientEp->patch(resourcePath, request, httpHeaders);
     }
 
     # Get certificate based remote clusters
@@ -731,7 +888,10 @@ public isolated client class Client {
     # + return - List of certificate based remote clusters for the resource 
     resource isolated function get deployments/[string deploymentId]/elasticsearch/[string refId]/remote\-clusters(map<string|string[]> headers = {}) returns RemoteResources|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/elasticsearch/${getEncodedUri(refId)}/remote-clusters`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Set certificate based remote clusters
@@ -743,10 +903,13 @@ public isolated client class Client {
     # + return - The Remote Clusters were updated 
     resource isolated function put deployments/[string deploymentId]/elasticsearch/[string refId]/remote\-clusters(RemoteResources payload, map<string|string[]> headers = {}) returns EmptyResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/elasticsearch/${getEncodedUri(refId)}/remote-clusters`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->put(resourcePath, request, headers);
+        return self.clientEp->put(resourcePath, request, httpHeaders);
     }
 
     # Get Deployment Enterprise Search Resource Info
@@ -759,7 +922,10 @@ public isolated client class Client {
     resource isolated function get deployments/[string deploymentId]/enterprise_search/[string refId](map<string|string[]> headers = {}, *GetDeploymentEnterpriseSearchResourceInfoQueries queries) returns EnterpriseSearchResourceInfo|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/enterprise_search/${getEncodedUri(refId)}`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Get Deployment Integrations Server Resource Info
@@ -772,7 +938,10 @@ public isolated client class Client {
     resource isolated function get deployments/[string deploymentId]/integrations_server/[string refId](map<string|string[]> headers = {}, *GetDeploymentIntegrationsServerResourceInfoQueries queries) returns IntegrationsServerResourceInfo|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/integrations_server/${getEncodedUri(refId)}`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Get Deployment Kibana Resource Info
@@ -785,7 +954,10 @@ public isolated client class Client {
     resource isolated function get deployments/[string deploymentId]/kibana/[string refId](map<string|string[]> headers = {}, *GetDeploymentKibResourceInfoQueries queries) returns KibanaResourceInfo|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/kibana/${getEncodedUri(refId)}`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Build request to migrate deployment to a different template
@@ -797,7 +969,10 @@ public isolated client class Client {
     resource isolated function get deployments/[string deploymentId]/migrate_template(map<string|string[]> headers = {}, *MigrateDeploymentTemplateQueries queries) returns DeploymentUpdateRequest|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/migrate_template`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Get Deployment upgrade assistant status
@@ -809,7 +984,10 @@ public isolated client class Client {
     resource isolated function get deployments/[string deploymentId]/upgrade_assistant/status(map<string|string[]> headers = {}, *GetDeploymentUpgradeAssistantStatusQueries queries) returns DeploymentUpgradeAssistantStatusResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/upgrade_assistant/status`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Restores a shutdown resource
@@ -823,8 +1001,11 @@ public isolated client class Client {
     resource isolated function post deployments/[string deploymentId]/["elasticsearch"|"kibana"|"apm"|"appsearch"|"enterprise_search"|"integrations_server" resourceKind]/[string refId]/_restore(map<string|string[]> headers = {}, *RestoreDeploymentResourceQueries queries) returns DeploymentResourceCrudResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/${getEncodedUri(resourceKind)}/${getEncodedUri(refId)}/_restore`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Start all instances
@@ -836,8 +1017,11 @@ public isolated client class Client {
     # + return - The start command was issued successfully 
     resource isolated function post deployments/[string deploymentId]/[string resourceKind]/[string refId]/instances/_start(map<string|string[]> headers = {}) returns DeploymentResourceCommandResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/${getEncodedUri(resourceKind)}/${getEncodedUri(refId)}/instances/_start`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Stop all instances
@@ -849,8 +1033,11 @@ public isolated client class Client {
     # + return - The stop command was issued successfully 
     resource isolated function post deployments/[string deploymentId]/[string resourceKind]/[string refId]/instances/_stop(map<string|string[]> headers = {}) returns DeploymentResourceCommandResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/${getEncodedUri(resourceKind)}/${getEncodedUri(refId)}/instances/_stop`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Start maintenance mode (all instances)
@@ -862,8 +1049,11 @@ public isolated client class Client {
     # + return - The start maintenance command was issued successfully 
     resource isolated function post deployments/[string deploymentId]/[string resourceKind]/[string refId]/instances/maintenance\-mode/_start(map<string|string[]> headers = {}) returns DeploymentResourceCommandResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/${getEncodedUri(resourceKind)}/${getEncodedUri(refId)}/instances/maintenance-mode/_start`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Stop maintenance mode (all instances)
@@ -875,8 +1065,11 @@ public isolated client class Client {
     # + return - The stop maintenance mode command was issued successfully 
     resource isolated function post deployments/[string deploymentId]/[string resourceKind]/[string refId]/instances/maintenance\-mode/_stop(map<string|string[]> headers = {}) returns DeploymentResourceCommandResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/${getEncodedUri(resourceKind)}/${getEncodedUri(refId)}/instances/maintenance-mode/_stop`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Cancel resource pending plan
@@ -890,7 +1083,10 @@ public isolated client class Client {
     resource isolated function delete deployments/[string deploymentId]/["elasticsearch"|"kibana"|"apm"|"appsearch"|"enterprise_search"|"integrations_server" resourceKind]/[string refId]/plan/pending(map<string|string[]> headers = {}, *CancelDeploymentResourcePendingPlanQueries queries) returns DeploymentResourceCrudResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/${getEncodedUri(resourceKind)}/${getEncodedUri(refId)}/plan/pending`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->delete(resourcePath, headers = headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
     # Restart Deployment Stateless Resource
@@ -904,8 +1100,11 @@ public isolated client class Client {
     resource isolated function post deployments/[string deploymentId]/["kibana"|"apm"|"appsearch"|"enterprise_search"|"integrations_server" statelessResourceKind]/[string refId]/_restart(map<string|string[]> headers = {}, *RestartDeploymentStatelessResourceQueries queries) returns DeploymentResourceCommandResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/${getEncodedUri(statelessResourceKind)}/${getEncodedUri(refId)}/_restart`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Shutdown Deployment Stateless Resource
@@ -919,8 +1118,11 @@ public isolated client class Client {
     resource isolated function post deployments/[string deploymentId]/["kibana"|"apm"|"appsearch"|"enterprise_search"|"integrations_server" statelessResourceKind]/[string refId]/_shutdown(map<string|string[]> headers = {}, *ShutdownDeploymentStatelessResourceQueries queries) returns DeploymentResourceCommandResponse|error {
         string resourcePath = string `/deployments/${getEncodedUri(deploymentId)}/${getEncodedUri(statelessResourceKind)}/${getEncodedUri(refId)}/_shutdown`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # List organizations
@@ -929,7 +1131,10 @@ public isolated client class Client {
     # + return - Organizations fetched successfully 
     resource isolated function get organizations(map<string|string[]> headers = {}) returns OrganizationList|error {
         string resourcePath = string `/organizations`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Get organization invitation
@@ -939,7 +1144,10 @@ public isolated client class Client {
     # + return - Organization invitation fetched successfully 
     resource isolated function get organizations/invitations/[string invitationToken](map<string|string[]> headers = {}) returns OrganizationInvitation|error {
         string resourcePath = string `/organizations/invitations/${getEncodedUri(invitationToken)}`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Accept an organization invitation
@@ -949,8 +1157,11 @@ public isolated client class Client {
     # + return - Organization invitation accepted successfully 
     resource isolated function post organizations/invitations/[string invitationToken]/_accept(map<string|string[]> headers = {}) returns EmptyResponse|error {
         string resourcePath = string `/organizations/invitations/${getEncodedUri(invitationToken)}/_accept`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Fetch organization information
@@ -960,7 +1171,10 @@ public isolated client class Client {
     # + return - Organization fetched successfully 
     resource isolated function get organizations/[string organizationId](map<string|string[]> headers = {}) returns Organization|error {
         string resourcePath = string `/organizations/${getEncodedUri(organizationId)}`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Update organization
@@ -971,10 +1185,13 @@ public isolated client class Client {
     # + return - Organization updated successfully 
     resource isolated function put organizations/[string organizationId](OrganizationRequest payload, map<string|string[]> headers = {}) returns Organization|error {
         string resourcePath = string `/organizations/${getEncodedUri(organizationId)}`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->put(resourcePath, request, headers);
+        return self.clientEp->put(resourcePath, request, httpHeaders);
     }
 
     # Get domain claims
@@ -984,7 +1201,10 @@ public isolated client class Client {
     # + return - The claimed domains for the organization 
     resource isolated function get organizations/[string organizationId]/domains(map<string|string[]> headers = {}) returns GetOrganizationClaimedDomainsResponse|error {
         string resourcePath = string `/organizations/${getEncodedUri(organizationId)}/domains`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Delete domain claim
@@ -995,10 +1215,13 @@ public isolated client class Client {
     # + return - With status 200 ok to signal the domain has been unclaimed 
     resource isolated function delete organizations/[string organizationId]/domains(DeleteDomainClaimRequest payload, map<string|string[]> headers = {}) returns EmptyResponse|error {
         string resourcePath = string `/organizations/${getEncodedUri(organizationId)}/domains`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->delete(resourcePath, request, headers);
+        return self.clientEp->delete(resourcePath, request, httpHeaders);
     }
 
     # Generate verification code
@@ -1009,10 +1232,13 @@ public isolated client class Client {
     # + return - The verification code response 
     resource isolated function post organizations/[string organizationId]/domains/_generate_verification_code(VerificationCodeRequest payload, map<string|string[]> headers = {}) returns VerificationCodeResponse|error {
         string resourcePath = string `/organizations/${getEncodedUri(organizationId)}/domains/_generate_verification_code`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Verify domain claim
@@ -1023,10 +1249,13 @@ public isolated client class Client {
     # + return - With status 200 ok to signal the domain has been claimed 
     resource isolated function post organizations/[string organizationId]/domains/_verify(DomainVerificationRequest payload, map<string|string[]> headers = {}) returns EmptyResponse|error {
         string resourcePath = string `/organizations/${getEncodedUri(organizationId)}/domains/_verify`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Get organization IdP
@@ -1036,7 +1265,10 @@ public isolated client class Client {
     # + return - The IdP info 
     resource isolated function get organizations/[string organizationId]/idp(map<string|string[]> headers = {}) returns OrganizationIdp|error {
         string resourcePath = string `/organizations/${getEncodedUri(organizationId)}/idp`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Setup organization IdP
@@ -1047,10 +1279,13 @@ public isolated client class Client {
     # + return - The IdP info 
     resource isolated function put organizations/[string organizationId]/idp(IdpConfigurationRequest payload, map<string|string[]> headers = {}) returns OrganizationIdp|error {
         string resourcePath = string `/organizations/${getEncodedUri(organizationId)}/idp`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->put(resourcePath, request, headers);
+        return self.clientEp->put(resourcePath, request, httpHeaders);
     }
 
     # Tear down organization IdP
@@ -1060,7 +1295,10 @@ public isolated client class Client {
     # + return - The IdP was successfully removed 
     resource isolated function delete organizations/[string organizationId]/idp(map<string|string[]> headers = {}) returns EmptyResponse|error {
         string resourcePath = string `/organizations/${getEncodedUri(organizationId)}/idp`;
-        return self.clientEp->delete(resourcePath, headers = headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
     # Get organization service provider SAML2 metadata.xml for configuring the identity provider
@@ -1070,7 +1308,10 @@ public isolated client class Client {
     # + return - The IdP info 
     resource isolated function get organizations/[string organizationId]/idp/metadata\.xml(map<string|string[]> headers = {}) returns xml|error {
         string resourcePath = string `/organizations/${getEncodedUri(organizationId)}/idp/metadata.xml`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # List organization invitations
@@ -1080,7 +1321,10 @@ public isolated client class Client {
     # + return - Organization invitations fetched successfully 
     resource isolated function get organizations/[string organizationId]/invitations(map<string|string[]> headers = {}) returns OrganizationInvitations|error {
         string resourcePath = string `/organizations/${getEncodedUri(organizationId)}/invitations`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Create organization invitations
@@ -1091,10 +1335,13 @@ public isolated client class Client {
     # + return - Organization invitations created successfully 
     resource isolated function post organizations/[string organizationId]/invitations(OrganizationInvitationRequest payload, map<string|string[]> headers = {}) returns OrganizationInvitations|error {
         string resourcePath = string `/organizations/${getEncodedUri(organizationId)}/invitations`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Delete organization invitations
@@ -1105,7 +1352,10 @@ public isolated client class Client {
     # + return - Organization invitations deleted successfully 
     resource isolated function delete organizations/[string organizationId]/invitations/[string invitationTokens](map<string|string[]> headers = {}) returns EmptyResponse|error {
         string resourcePath = string `/organizations/${getEncodedUri(organizationId)}/invitations/${getEncodedUri(invitationTokens)}`;
-        return self.clientEp->delete(resourcePath, headers = headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
     # List organization members
@@ -1115,7 +1365,10 @@ public isolated client class Client {
     # + return - Organization members fetched successfully 
     resource isolated function get organizations/[string organizationId]/members(map<string|string[]> headers = {}) returns OrganizationMemberships|error {
         string resourcePath = string `/organizations/${getEncodedUri(organizationId)}/members`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Delete organization memberships
@@ -1128,7 +1381,10 @@ public isolated client class Client {
     resource isolated function delete organizations/[string organizationId]/members/[string userIds](map<string|string[]> headers = {}, *DeleteOrganizationMembershipsQueries queries) returns EmptyResponse|error {
         string resourcePath = string `/organizations/${getEncodedUri(organizationId)}/members/${getEncodedUri(userIds)}`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->delete(resourcePath, headers = headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
     # Get role  mappings
@@ -1138,7 +1394,10 @@ public isolated client class Client {
     # + return - The IdP info 
     resource isolated function get organizations/[string organizationId]/role_mappings(map<string|string[]> headers = {}) returns GetRoleMappingsResponse|error {
         string resourcePath = string `/organizations/${getEncodedUri(organizationId)}/role_mappings`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Updates role mappings
@@ -1149,10 +1408,13 @@ public isolated client class Client {
     # + return - An empty response 
     resource isolated function put organizations/[string organizationId]/role_mappings(UpdateOrganizationRoleMappingRequest payload, map<string|string[]> headers = {}) returns EmptyResponse|error {
         string resourcePath = string `/organizations/${getEncodedUri(organizationId)}/role_mappings`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->put(resourcePath, request, headers);
+        return self.clientEp->put(resourcePath, request, httpHeaders);
     }
 
     # Delete role  mappings
@@ -1162,7 +1424,10 @@ public isolated client class Client {
     # + return - The mappings were successfully deleted 
     resource isolated function delete organizations/[string organizationId]/role_mappings(map<string|string[]> headers = {}) returns EmptyResponse|error {
         string resourcePath = string `/organizations/${getEncodedUri(organizationId)}/role_mappings`;
-        return self.clientEp->delete(resourcePath, headers = headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
     # Get stack versions
@@ -1173,7 +1438,10 @@ public isolated client class Client {
     resource isolated function get stack/versions(map<string|string[]> headers = {}, *GetVersionStacksQueries queries) returns StackVersionConfigs|error {
         string resourcePath = string `/stack/versions`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Get trusted environments
@@ -1182,7 +1450,10 @@ public isolated client class Client {
     # + return - Trusted environments for this organization 
     resource isolated function get trusted\-environments(map<string|string[]> headers = {}) returns ElasticsearchClusterTrustSettings|error {
         string resourcePath = string `/trusted-environments`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Get all API keys
@@ -1191,7 +1462,10 @@ public isolated client class Client {
     # + return - The metadata for the API keys is retrieved 
     resource isolated function get users/auth/keys(map<string|string[]> headers = {}) returns ApiKeysResponse|error {
         string resourcePath = string `/users/auth/keys`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Create API key
@@ -1201,10 +1475,13 @@ public isolated client class Client {
     # + return - The API key is created and returned in the body of the response 
     resource isolated function post users/auth/keys(CreateApiKeyRequest payload, map<string|string[]> headers = {}) returns ApiKeyResponse|error {
         string resourcePath = string `/users/auth/keys`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Delete API keys
@@ -1214,10 +1491,13 @@ public isolated client class Client {
     # + return - The API keys are deleted 
     resource isolated function delete users/auth/keys(DeleteApiKeysRequest payload, map<string|string[]> headers = {}) returns EmptyResponse|error {
         string resourcePath = string `/users/auth/keys`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->delete(resourcePath, request, headers);
+        return self.clientEp->delete(resourcePath, request, httpHeaders);
     }
 
     # Get API key
@@ -1227,7 +1507,10 @@ public isolated client class Client {
     # + return - The API key metadata is retrieved 
     resource isolated function get users/auth/keys/[string apiKeyId](map<string|string[]> headers = {}) returns ApiKeyResponse|error {
         string resourcePath = string `/users/auth/keys/${getEncodedUri(apiKeyId)}`;
-        return self.clientEp->get(resourcePath, headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # Delete API key
@@ -1237,7 +1520,10 @@ public isolated client class Client {
     # + return - The API key is deleted 
     resource isolated function delete users/auth/keys/[string apiKeyId](map<string|string[]> headers = {}) returns EmptyResponse|error {
         string resourcePath = string `/users/auth/keys/${getEncodedUri(apiKeyId)}`;
-        return self.clientEp->delete(resourcePath, headers = headers);
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
     # Add Role Assignments
@@ -1248,10 +1534,13 @@ public isolated client class Client {
     # + return - Role Assignments were successfully added to the target User 
     resource isolated function post users/[string userId]/role_assignments(RoleAssignments payload, map<string|string[]> headers = {}) returns EmptyResponse|error {
         string resourcePath = string `/users/${getEncodedUri(userId)}/role_assignments`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, headers);
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Remove Role Assignments
@@ -1262,9 +1551,12 @@ public isolated client class Client {
     # + return - Role Assignments were successfully removed from the target User 
     resource isolated function delete users/[string userId]/role_assignments(RoleAssignments payload, map<string|string[]> headers = {}) returns EmptyResponse|error {
         string resourcePath = string `/users/${getEncodedUri(userId)}/role_assignments`;
+        map<anydata> headerValues = {...headers};
+        headerValues["Authorization"] = self.apiKeyConfig.authorization;
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
-        return self.clientEp->delete(resourcePath, request, headers);
+        return self.clientEp->delete(resourcePath, request, httpHeaders);
     }
 }

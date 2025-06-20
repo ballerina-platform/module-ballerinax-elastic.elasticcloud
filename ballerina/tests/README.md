@@ -1,171 +1,67 @@
 # Elasticsearch Cloud API Connector Testing
 
-This repository contains comprehensive testing framework for the Ballerina Elasticsearch Cloud API connector.
+This repository contains a comprehensive testing framework for the Ballerina Elasticsearch Cloud API connector with both mock and live testing capabilities.
+
+## Overview
+
+The testing framework provides two environments:
+- **Mock Environment**: Local mock server that simulates Elasticsearch Cloud API responses
+- **Live Environment**: Tests against the actual Elasticsearch Cloud API
+
+## Configuration
+
+### Config.toml Setup
+
+Create a `Config.toml` file in your project root with the following structure:
+
+```toml
+# Set to false for mock testing, true for live testing
+useLiveEnvironment = false
+
+# Live Elasticsearch Cloud API configuration
+liveApiKey = "your-live-api-key-here"
+liveBaseUrl = "https://api.elastic-cloud.com"
+
+# Mock service configuration
+mockApiKey = "test-api-key-12345"
+mockBaseUrl = "http://localhost:8080"
+
+# Mock service settings
+validApiKey = "test-api-key-12345"
+port = 8080
+```
+
+### Configuration Parameters
+
+| Parameter | Description | Default Value |
+|-----------|-------------|---------------|
+| `useLiveEnvironment` | Switch between mock (false) and live (true) testing | `false` |
+| `liveApiKey` | Your Elasticsearch Cloud API key | Required for live tests |
+| `liveBaseUrl` | Elasticsearch Cloud API base URL | `https://api.elastic-cloud.com` |
+| `mockApiKey` | API key for mock testing | `test-api-key-12345` |
+| `mockBaseUrl` | Mock service base URL | `http://localhost:8080` |
+| `validApiKey` | Valid API key for mock service | `test-api-key-12345` |
+| `port` | Port for mock service | `8080` |
 
 ## Running Tests
 
-### Prerequisites
+### Mock Environment Testing (Default)
 
-You need an API key from Elasticsearch Cloud to run tests against the live API.
-To obtain this, refer to the [Elastic Cloud API Documentation](https://www.elastic.co/guide/en/cloud/current/ec-api-authentication.html).
+The mock environment is ideal for development and CI/CD pipelines as it doesn't require external dependencies or API keys.
 
-### Running Tests
-
-There are two test environments for running the Elasticsearch connector tests. The default test environment is the mock server for Elasticsearch Cloud API. The other test environment is the actual Elasticsearch Cloud API.
-
-You can run the tests in either of these environments and each has its own compatible set of tests.
-
-#### Test Groups
-
-| Environment | Test Group | Description |
-|-------------|------------|-------------|
-| `mock_tests` | Mock server for Elasticsearch Cloud API | Default Environment |
-| `live_tests` | Elasticsearch Cloud API | Live API Environment |
-
-### Running Tests in the Mock Server
-
-To execute the tests on the mock server, ensure that the `environment` variable is set to `mock` before initiating the tests.
-This environment variable can be configured within the `Config.toml` file located in the tests directory or specified as an environmental variable.
-
-#### Using a Config.toml File
-
-Create a `Config.toml` file in the tests directory with the following content:
-
-```toml
-apiKey = "test-api-key-12345"
-environment = "mock"
-baseUrl = "http://localhost:8080"
-testPrefix = "test_"
-port = 8080
-validApiKey = "test-api-key-12345"
-```
-
-#### Using Environment Variables
-
-Alternatively, you can set your configuration as environment variables:
-
-**If you are using Linux or Mac:**
-```bash
-export ELASTICSEARCH_ENVIRONMENT=mock
-export ELASTICSEARCH_API_KEY=test-api-key-12345
-export ELASTICSEARCH_BASE_URL=http://localhost:8080
-```
-
-**If you are using Windows:**
-```cmd
-setx ELASTICSEARCH_ENVIRONMENT mock
-setx ELASTICSEARCH_API_KEY test-api-key-12345
-setx ELASTICSEARCH_BASE_URL http://localhost:8080
-```
-
-Then, run the following commands to start the mock service and run tests:
-
+1. **Start the mock service:**
 ```bash
 # Terminal 1: Start mock service
-bal run tests/mock_service.bal
+bal run mock_service.bal
+```
 
+2. **Run tests in another terminal:**
+```bash
 # Terminal 2: Run tests
-bal test
+bal test --groups mock_tests
 ```
 
-### Running Tests Against Elasticsearch Cloud Live API
-
-#### Using a Config.toml File
-
-Create a `Config.toml` file in the tests directory and add your authentication credentials:
-
-```toml
-apiKey = "<your-elasticsearch-cloud-api-key>"
-environment = "production"
-baseUrl = "https://api.elastic-cloud.com/api/v1"
-testPrefix = "test_"
-```
-
-#### Using Environment Variables
-
-Alternatively, you can set your authentication credentials as environment variables:
-
-**If you are using Linux or Mac:**
-```bash
-export ELASTICSEARCH_ENVIRONMENT=production
-export ELASTICSEARCH_API_KEY="<your-elasticsearch-cloud-api-key>"
-export ELASTICSEARCH_BASE_URL="https://api.elastic-cloud.com/api/v1"
-```
-
-**If you are using Windows:**
-```cmd
-setx ELASTICSEARCH_ENVIRONMENT production
-setx ELASTICSEARCH_API_KEY <your-elasticsearch-cloud-api-key>
-setx ELASTICSEARCH_BASE_URL https://api.elastic-cloud.com/api/v1
-```
-
-Then, run the following command to run the tests:
-
-```bash
-bal test
-```
-
-### Getting Your Elasticsearch Cloud API Key
-
-1. **Sign up for Elastic Cloud:** Go to [https://cloud.elastic.co](https://cloud.elastic.co)
-2. **Create a free trial account** (14 days, no credit card required)
-3. **Navigate to API Keys:** 
-   - Click your avatar in the upper right corner
-   - Choose "Organization"
-   - Go to the "API Keys" tab
-4. **Generate API Key:**
-   - Click "Create API Key"
-   - Give it a name and set permissions
-   - **Copy the key immediately** (you can't see it again!)
-
-### Test Configuration Options
-
-You can also run tests with command-line overrides:
-
-```bash
-# Test against sandbox environment
-bal test -e environment=sandbox -e apiKey=your-sandbox-key
-
-# Test with custom base URL
-bal test -e baseUrl=https://your-custom-endpoint.com
-
-# Run specific test
-bal test --tests testAccountEndpoint
-```
-
-### Available Test Endpoints
-
-The test suite covers the following Elasticsearch Cloud API endpoints:
-
-- `GET /account` - Account Information
-- `GET /deployments` - List Deployments  
-- `GET /deployments/templates` - Deployment Templates
-- `GET /users/auth/keys` - API Keys Management
-- `GET /organizations` - Organization Information
-
-### Security Notes
-
-⚠️ **Important Security Considerations:**
-
-1. **Never commit real API keys** to version control
-2. **Use environment variables** for sensitive data in CI/CD
-3. **Add Config.toml to .gitignore** if it contains real credentials
-4. **Start with mock environment** for development and testing
-5. **Use sandbox/trial** before production testing
-
-### Troubleshooting
-
-#### Common Issues
-
-- **Port 8080 already in use:** Change the port in `Config.toml`
-- **Connection refused:** Ensure mock service is running before tests
-- **401 Unauthorized:** Check your API key configuration
-- **404 Not Found:** Verify endpoint URLs are correct
-
-#### Health Check
-
-To verify the mock service is running:
-
+3. **Verify mock service health:**
 ```bash
 curl http://localhost:8080/api/v1/health
 ```
@@ -179,22 +75,211 @@ Expected response:
 }
 ```
 
-### Project Structure
+### Live Environment Testing
+
+For testing against the actual Elasticsearch Cloud API:
+
+1. **Update Config.toml:**
+```toml
+useLiveEnvironment = true
+liveApiKey = "your-actual-api-key"
+```
+
+2. **Run live tests:**
+```bash
+bal test --groups live_tests
+```
+
+### Running All Tests
+
+To run tests for both environments:
+
+```bash
+bal test
+```
+
+## Test Groups
+
+The testing framework includes two test groups:
+
+| Test Group | Environment | Description |
+|------------|-------------|-------------|
+| `mock_tests` | Mock Server | Safe for development, no external dependencies |
+| `live_tests` | Elasticsearch Cloud API | Tests against real API, requires valid credentials |
+
+### Test Coverage
+
+Both environments test the following endpoints:
+
+**Common Tests (Both Environments):**
+- `GET /account` - Account Information
+- `GET /deployments` - List Deployments
+- `GET /deployments/templates` - Deployment Templates
+- `GET /users/auth/keys` - API Keys Management
+- `GET /organizations` - Organization Information
+- Authentication error handling
+- Non-existent endpoint handling
+
+**Mock-Only Tests:**
+- Multiple concurrent requests test
+- Comprehensive error scenario testing
+
+**Live-Only Tests:**
+- API connectivity verification
+- Single request validation
+- Real-world authentication testing
+
+## Getting Your Elasticsearch Cloud API Key
+
+1. **Sign up for Elastic Cloud:** Visit [https://cloud.elastic.co](https://cloud.elastic.co)
+2. **Create an account:** Free trial available (14 days, no credit card required)
+3. **Navigate to API Keys:**
+   - Click your profile avatar (upper right)
+   - Select "Organization"
+   - Go to "API Keys" tab
+4. **Generate API Key:**
+   - Click "Create API Key"
+   - Provide a name and set appropriate permissions
+   - **Copy the key immediately** (cannot be retrieved later)
+5. **Update Config.toml** with your new API key
+
+## Environment Variables Alternative
+
+Instead of Config.toml, you can use environment variables:
+
+**Linux/Mac:**
+```bash
+export BALLERINA_USE_LIVE_ENVIRONMENT=true
+export BALLERINA_LIVE_API_KEY="your-api-key"
+export BALLERINA_LIVE_BASE_URL="https://api.elastic-cloud.com"
+```
+
+**Windows:**
+```cmd
+setx BALLERINA_USE_LIVE_ENVIRONMENT true
+setx BALLERINA_LIVE_API_KEY your-api-key
+setx BALLERINA_LIVE_BASE_URL https://api.elastic-cloud.com
+```
+
+## Advanced Testing Options
+
+### Running Specific Tests
+
+```bash
+# Run only account endpoint test
+bal test --tests testAccountEndpoint
+
+# Run only authentication tests
+bal test --tests testInvalidApiKey
+
+# Run only mock environment tests
+bal test --groups mock_tests
+```
+
+### Custom Port Configuration
+
+If port 8080 is in use, modify the `port` value in Config.toml:
+
+```toml
+port = 8081
+mockBaseUrl = "http://localhost:8081"
+```
+
+### Debug Mode
+
+Enable debug logging for detailed test execution information:
+
+```bash
+bal test --debug
+```
+
+## Project Structure
 
 ```
 elasticsearch-connector/
 ├── Ballerina.toml
-└── tests/
-    ├── Config.toml          # Test configuration
-    ├── test.bal            # Test suite (8 comprehensive tests)
-    └── mock_service.bal    # Mock Elasticsearch Cloud API service
+├── Config.toml              # Configuration file
+├── mock_service.bal         # Mock Elasticsearch Cloud API service
+└── test.bal                 # Comprehensive test suite (10 tests)
 ```
 
-### Contributing
+## Security Best Practices
 
-1. **Always test with mock service first**
-2. **Add new test cases for new endpoints**
-3. **Follow the existing pattern for authentication and error handling**
-4. **Update this README when adding new features**
+⚠️ **Important Security Guidelines:**
 
-For more information about the Elasticsearch Cloud API, visit the [official documentation](https://www.elastic.co/guide/en/cloud/current/ec-restful-api.html).
+1. **Never commit real API keys** to version control
+2. **Add Config.toml to .gitignore** when using real credentials
+3. **Use environment variables** in CI/CD pipelines
+4. **Start with mock environment** for development
+5. **Validate permissions** on API keys before live testing
+6. **Use least-privilege principle** for API key permissions
+
+### Example .gitignore Entry
+
+```gitignore
+# Keep Config.toml out of version control if it contains real credentials
+Config.toml
+
+# But you might want to include a template
+!Config.toml.template
+```
+
+## Troubleshooting
+
+### Common Issues
+
+**Mock Service Issues:**
+- **Port already in use:** Change `port` in Config.toml
+- **Service not responding:** Ensure mock service is running before tests
+- **Connection refused:** Check if localhost:8080 is accessible
+
+**Live API Issues:**
+- **401 Unauthorized:** Verify your API key is correct and active
+- **403 Forbidden:** Check API key permissions
+- **Rate limiting:** Space out requests or use mock environment for development
+
+### Test Debugging
+
+The test framework provides detailed logging:
+
+```bash
+# View test execution details
+bal test --observability-included
+
+# Check specific test results
+bal test --tests testAccountEndpoint --debug
+```
+
+### Health Checks
+
+**Mock Service Health Check:**
+```bash
+curl -X GET http://localhost:8080/api/v1/health
+```
+
+**Live API Connectivity Check:**
+```bash
+curl -X GET https://api.elastic-cloud.com/api/v1/account \
+  -H "Authorization: ApiKey your-api-key"
+```
+
+## Contributing
+
+When contributing to this testing framework:
+
+1. **Test with mock environment first** for development
+2. **Add corresponding tests** for both environments when possible
+3. **Follow existing authentication patterns**
+4. **Update documentation** for new test cases
+5. **Ensure backward compatibility** with existing configurations
+
+## API Documentation
+
+For detailed information about the Elasticsearch Cloud API:
+- [Official API Documentation](https://www.elastic.co/guide/en/cloud/current/ec-restful-api.html)
+- [Authentication Guide](https://www.elastic.co/guide/en/cloud/current/ec-api-authentication.html)
+- [API Reference](https://www.elastic.co/guide/en/cloud/current/ec-api-reference.html)
+
+## License
+
+This testing framework follows the same license as the main Ballerina Elasticsearch Cloud connector project.

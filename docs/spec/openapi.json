@@ -14,6 +14,11 @@
       "url" : "https://github.com/elastic/docs-content/issues/new?assignees=&labels=feedback%2Ccommunity&projects=&template=api-feedback.yaml&title=%5BFeedback%5D%3A+"
     }
   },
+  "security": [
+    {
+      "apiKey": []
+    }
+  ],
   "servers" : [ {
     "url" : "https://api.elastic-cloud.com/api/v1"
   } ],
