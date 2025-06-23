@@ -73,7 +73,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "http"
-version = "2.14.1"
+version = "2.14.2"
 dependencies = [
 	{org = "ballerina", name = "auth"},
 	{org = "ballerina", name = "cache"},
@@ -279,10 +279,11 @@ modules = [
 [[package]]
 org = "ballerina"
 name = "task"
-version = "2.7.0"
+version = "2.10.0"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"},
-	{org = "ballerina", name = "time"}
+	{org = "ballerina", name = "time"},
+	{org = "ballerina", name = "uuid"}
 ]
 
 [[package]]
@@ -325,7 +326,6 @@ modules = [
 org = "ballerina"
 name = "uuid"
 version = "1.10.0"
-scope = "testOnly"
 dependencies = [
 	{org = "ballerina", name = "crypto"},
 	{org = "ballerina", name = "jballerina.java"},
@@ -350,7 +350,7 @@ modules = [
 
 [[package]]
 org = "ballerinax"
-name = "elasticsearch"
+name = "elastic.elasticcloud"
 version = "2.0.0"
 dependencies = [
 	{org = "ballerina", name = "data.jsondata"},
@@ -365,6 +365,6 @@ dependencies = [
 	{org = "ballerinai", name = "observe"}
 ]
 modules = [
-	{org = "ballerinax", packageName = "elasticsearch", moduleName = "elasticsearch"}
+	{org = "ballerinax", packageName = "elastic.elasticcloud", moduleName = "elastic.elasticcloud"}
 ]
 
