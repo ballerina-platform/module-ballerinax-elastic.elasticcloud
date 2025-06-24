@@ -5,8 +5,8 @@ name = "elastic.elasticcloud"
 version = "2.0.0"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
-keywords = [] # TODO: Add keywords
-# icon = "icon.png" # TODO: Add icon
+keywords = ["Elasticsearch", "Elastic Cloud"]
+icon = "icon.png"
 repository = "https://github.com/ballerina-platform/module-ballerinax-elasticsearch"
 
 [build-options]
