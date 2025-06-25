@@ -1,4 +1,4 @@
-import ballerina/io;
+import ballerina/log;
 import ballerinax/elastic.elasticcloud;
 
 configurable string elasticApiKey = ?;
@@ -9,51 +9,49 @@ public function main() returns error? {
     };
 
     elasticcloud:Client elasticClient = check new (config);
-    io:println("Elastic Cloud client initialized");
+    log:printInfo("Elastic Cloud client initialized");
 
     elasticcloud:CreateApiKeyRequest newKeyRequest = {
         description: "API key created from Ballerina example for Delete API Key"
     };
-    io:println("Creating new API key...");
+    log:printInfo("Creating new API key...");
     elasticcloud:ApiKeyResponse createdKey = check elasticClient->/users/auth/keys.post(newKeyRequest);
-    io:println("API key created successfully!");
-    io:println("Key ID: " + createdKey.id);
+    log:printInfo("API key created successfully!");
+    log:printInfo("Key ID: " + createdKey.id);
     if createdKey.'key is string {
-        io:println("API Key: " + (createdKey.'key ?: "N/A"));
-        io:println("Save this API key - it won't be shown again!");
+        log:printInfo("API Key: " + (createdKey.'key ?: "N/A"));
+        log:printInfo("Save this API key - it won't be shown again!");
     }
 
-    io:println("\nFetching all API keys...");
+    log:printInfo("Fetching all API keys...");
     elasticcloud:ApiKeysResponse allKeys = check elasticClient->/users/auth/keys();
-    io:println("Found " + allKeys.keys.length().toString() + " API key(s)");
+    log:printInfo("Found " + allKeys.keys.length().toString() + " API key(s)");
 
-    io:println("\nYour API Keys:");
+    log:printInfo("Your API Keys:");
     foreach elasticcloud:ApiKeyResponse keyItem in allKeys.keys {
-        io:println("- ID: " + keyItem.id);
-        io:println("  Description: " + keyItem.description);
-        io:println("  Created: " + keyItem.creationDate);
+        log:printInfo("- ID: " + keyItem.id);
+        log:printInfo("  Description: " + keyItem.description);
+        log:printInfo("  Created: " + keyItem.creationDate);
         if keyItem.expirationDate is string {
-            io:println("  Expires: " + (keyItem.expirationDate ?: "N/A"));
+            log:printInfo("  Expires: " + (keyItem.expirationDate ?: "N/A"));
         }
-        io:println();
     }
 
-    io:println("Deleting the created API key...");
+    log:printInfo("Deleting the created API key...");
     elasticcloud:EmptyResponse _ = check elasticClient->/users/auth/keys/[createdKey.id].delete();
-    io:println("API key deleted successfully.");
+    log:printInfo("API key deleted successfully.");
 
-    io:println("\nFetching all API keys after deletion...");
+    log:printInfo("Fetching all API keys after deletion...");
     elasticcloud:ApiKeysResponse allKeysNew = check elasticClient->/users/auth/keys();
-    io:println("Found " + allKeysNew.keys.length().toString() + " API key(s)");
+    log:printInfo("Found " + allKeysNew.keys.length().toString() + " API key(s)");
 
-    io:println("\nYour API Keys:");
+    log:printInfo("Your API Keys:");
     foreach elasticcloud:ApiKeyResponse keyItem in allKeysNew.keys {
-        io:println("- ID: " + keyItem.id);
-        io:println("  Description: " + keyItem.description);
-        io:println("  Created: " + keyItem.creationDate);
+        log:printInfo("- ID: " + keyItem.id);
+        log:printInfo("  Description: " + keyItem.description);
+        log:printInfo("  Created: " + keyItem.creationDate);
         if keyItem.expirationDate is string {
-            io:println("  Expires: " + (keyItem.expirationDate ?: "N/A"));
+            log:printInfo("  Expires: " + (keyItem.expirationDate ?: "N/A"));
         }
-        io:println();
     }
 }
