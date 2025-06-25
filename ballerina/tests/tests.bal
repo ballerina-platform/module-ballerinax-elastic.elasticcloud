@@ -1,4 +1,4 @@
-// Copyright (c) 2024, WSO2 LLC. (http://www.wso2.com).
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 //
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -17,13 +17,14 @@
 import ballerina/os;
 import ballerina/test;
 import ballerina/uuid;
+import ballerina/http;
 
 configurable boolean isLiveServer = os:getEnv("IS_LIVE_SERVER") == "true";
 configurable string apiKey = isLiveServer ? os:getEnv("ELASTIC_API_KEY") : "test-api-key-12345";
-configurable string serviceUrl = isLiveServer ? "https://api.elastic-cloud.com/api/v1" : "http://localhost:8080/api/v1";
+configurable string serviceUrl = isLiveServer ? "https://api.elastic-cloud.com/api/v1" : "http://localhost:9000/api/v1";
 
 ApiKeysConfig apiKeyConfig = {
-    authorization:"ApiKey "+ apiKey
+    authorization: "ApiKey " + apiKey
 };
 
 ConnectionConfig config = {};
@@ -52,17 +53,15 @@ isolated function testDeploymentsEndpoint() returns error? {
 }
 isolated function testGetApiKeyByIdLive() returns error? {
     ApiKeyResponse|error response = elasticClient->/users/auth/keys/["invalid-key-id"]();
-
-    if response is error {
-        test:assertTrue(response.message().includes("Not Found") ||
-                    response.message().includes("resource_not_found"));
+    if response is http:ApplicationResponseError {
+        test:assertEquals(response.detail().statusCode, http:STATUS_NOT_FOUND);
     } else {
         test:assertFail("Expected error for invalid API key ID");
     }
 }
 
 @test:Config {
-    enable: !isLiveServer, 
+    enable: !isLiveServer,
     groups: ["mock_tests"]
 }
 isolated function testGetApiKeyByIdMock() returns error? {
@@ -80,35 +79,27 @@ isolated function testListOrganizations() returns error? {
 
 @test:Config {
     enable: isLiveServer,
-   groups: ["live_tests"]
+    groups: ["live_tests"]
 }
-isolated function testCreateDeploymentLive() returns error? {
-   DeploymentCreateRequest createRequest = {
-       name: "test-deployment"
-   };
+isolated function testCreateDeploymentLiveSuccess() returns error? {
+    DeploymentCreateRequest createRequest = {
+        name: "test-deployment"
+    };
+    DeploymentCreateResponse response = check elasticClient->/deployments.post(createRequest, validate_only = true);
+    test:assertTrue(response.name.length() > 0, "Deployment name should not be empty");
+}
 
-   DeploymentCreateResponse|error response = elasticClient->/deployments.post(createRequest, validate_only = true);
-   
-   if response is DeploymentCreateResponse {
-       test:assertTrue(response.name.length() > 0, "Deployment name should not be empty");
-   } else if response is error && response.message().includes("402") {
-       test:assertTrue(true);
-   } else if response is error {
-       test:assertFail("Unexpected error: " + response.message());
-   }
-}
 
 @test:Config {
     enable: !isLiveServer,
-   groups: ["mock_tests"]
+    groups: ["mock_tests"]
 }
 isolated function testCreateDeploymentMock() returns error? {
-   DeploymentCreateRequest createRequest = {
-       name: "test-deployment"
-   };
-
-   DeploymentCreateResponse response = check elasticClient->/deployments.post(createRequest);
-   test:assertTrue(response.name.length() > 0, "Deployment name should not be empty");
+    DeploymentCreateRequest createRequest = {
+        name: "test-deployment"
+    };
+    DeploymentCreateResponse response = check elasticClient->/deployments.post(createRequest);
+    test:assertTrue(response.name.length() > 0, "Deployment name should not be empty");
 }
 
 @test:Config {
@@ -116,16 +107,12 @@ isolated function testCreateDeploymentMock() returns error? {
     groups: ["live_tests"]
 }
 isolated function testSearchDeploymentsLive() returns error? {
-    
     SearchRequest searchRequest = {};
     DeploymentsSearchResponse|error response = elasticClient->/deployments/_search.post(searchRequest);
-
     if response is DeploymentsSearchResponse {
         test:assertTrue(response.returnCount >= 0, "Return count should be non-negative");
-    } else if response is error && (response.message().includes("402") || response.message().includes("403")) {
-        test:assertTrue(true);
-    } else if response is error {
-        test:assertFail("Unexpected error: " + response.message());
+    } else {
+        test:assertFail("Unexpected error: " + response.toString());
     }
 }
 
@@ -134,7 +121,6 @@ isolated function testSearchDeploymentsLive() returns error? {
     groups: ["mock_tests"]
 }
 isolated function testSearchDeploymentsMock() returns error? {
-    
     SearchRequest searchRequest = {};
     DeploymentsSearchResponse response = check elasticClient->/deployments/_search.post(searchRequest);
     test:assertTrue(response.returnCount >= 0, "Return count should be non-negative");
@@ -145,12 +131,10 @@ isolated function testSearchDeploymentsMock() returns error? {
     groups: ["mock_tests"]
 }
 isolated function testCreateApiKeyMock() returns error? {
-   
     CreateApiKeyRequest minimalRequest = {
         "name": "minimal-test-key",
         "description": "Minimal test API key"
     };
-
     ApiKeyResponse response = check elasticClient->/users/auth/keys.post(minimalRequest);
     test:assertTrue(response is ApiKeyResponse, "API Key should be created successfully");
 }
@@ -160,14 +144,10 @@ isolated function testCreateApiKeyMock() returns error? {
     groups: ["live_tests"]
 }
 isolated function testDeleteApiKeyLive() returns error? {
-    
     string keyIdToDelete = "non-existent-key-" + uuid:createType1AsString();
     var response = elasticClient->/users/auth/keys/[keyIdToDelete].delete();
-
-    if response is error {
-        test:assertTrue(response.message().includes("Not Found") || 
-                       response.message().includes("resource_not_found") || 
-                       response.message().includes("404"));
+    if response is http:ApplicationResponseError {
+        test:assertEquals(response.detail().statusCode, http:STATUS_NOT_FOUND);
     } else {
         test:assertFail("Expected 404 for non-existent key");
     }
@@ -178,7 +158,6 @@ isolated function testDeleteApiKeyLive() returns error? {
     groups: ["mock_tests"]
 }
 isolated function testDeleteApiKeyMock() returns error? {
-    
     string keyIdToDelete = "test-key-123";
     EmptyResponse response = check elasticClient->/users/auth/keys/[keyIdToDelete].delete();
     test:assertTrue(response is EmptyResponse, "API Key should be deleted successfully");

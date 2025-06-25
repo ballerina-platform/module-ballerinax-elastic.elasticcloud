@@ -1,4 +1,4 @@
-_Author_:  Yasith Rashan Perera \
+_Author_:  @yasithrashan \
 _Created_: 2025-06-20 \
 _Updated_: 2025-06-20 \
 _Edition_: Swan Lake
