@@ -112,7 +112,6 @@ isolated function testSearchDeploymentsLive() returns error? {
     if response is DeploymentsSearchResponse {
         test:assertTrue(response.returnCount >= 0, "Return count should be non-negative");
     } else {
-        // COULD BE IMPROVED: If you expect specific HTTP errors, check status codes
         test:assertFail("Unexpected error: " + response.toString());
     }
 }

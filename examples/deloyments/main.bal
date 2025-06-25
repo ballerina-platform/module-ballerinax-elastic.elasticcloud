@@ -21,15 +21,9 @@ public function main() returns error? {
         template_id: "gcp-general-purpose"
     };
 
-    log:printInfo("Creating new deployment...");
     elasticcloud:DeploymentCreateResponse createdDeployment = check elasticClient->/deployments.post(newDeploymentRequest, queries = queries);
-    log:printInfo("Deployment created successfully!");
-    log:printInfo("Deployment ID: " + createdDeployment.id);
-    if createdDeployment.name is string {
-        log:printInfo("Deployment Name: " + (createdDeployment.name != "" ? createdDeployment.name : "N/A"));
-    }
+    log:printInfo("Deployment created: " + createdDeployment.id);
 
-    log:printInfo("Fetching all deployments...");
     elasticcloud:DeploymentsListResponse deploymentsList = check elasticClient->/deployments();
     log:printInfo("Found " + deploymentsList.deployments.length().toString() + " deployment(s)");
 
@@ -38,7 +32,6 @@ public function main() returns error? {
         return;
     }
 
-    log:printInfo("Your Deployments:");
     foreach elasticcloud:DeploymentsListingData deployment in deploymentsList.deployments {
         log:printInfo("- ID: " + deployment.id);
         if deployment.name is string {
@@ -58,7 +51,6 @@ public function main() returns error? {
         }
     }
 
-    log:printInfo("Searching for deployments with 'ballerina' in the name...");
     elasticcloud:SearchRequest searchRequest = {
         size: 10
     };
@@ -67,7 +59,6 @@ public function main() returns error? {
     log:printInfo("Search found " + searchResults.returnCount.toString() + " deployment(s)");
 
     if searchResults.returnCount > 0 {
-        log:printInfo("Search Results:");
         foreach elasticcloud:DeploymentSearchResponse deployment in searchResults.deployments {
             log:printInfo("- ID: " + deployment.id);
             if deployment.name is string {
@@ -81,13 +72,11 @@ public function main() returns error? {
         log:printInfo("No deployments found matching the search criteria.");
     }
 
-    log:printInfo("Searching for all deployments using search API...");
     elasticcloud:SearchRequest allDeploymentsSearch = {};
     elasticcloud:DeploymentsSearchResponse allSearchResults = check elasticClient->/deployments/_search.post(allDeploymentsSearch);
     log:printInfo("Search API returned " + allSearchResults.returnCount.toString() + " deployment(s)");
 
     if allSearchResults.returnCount > 0 {
-        log:printInfo("All Deployments (via search):");
         foreach elasticcloud:DeploymentSearchResponse deployment in allSearchResults.deployments {
             log:printInfo("- ID: " + deployment.id);
             if deployment.name is string {

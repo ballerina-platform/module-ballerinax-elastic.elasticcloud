@@ -109,30 +109,76 @@ apiKey = "<Your API Key>"
 
 ```
 
-**Example Config.toml:**
-```toml
-organizationId = "2731546620"
-apiKey = "H3pZ5cBciUoa445YXjP"
-
-# Optional Elasticsearch credentials
-endpoint = "https://my-deployment.es.us-central1.gcp.cloud.es.io:9243"
-username = "elastic"
-password = "your-password-here"
-```
-
 > **Note**: Make sure to add `Config.toml` to your `.gitignore` file to avoid committing sensitive credentials to version control.
-
-
 
 ## Quickstart
 
-[//]: # (TODO: Add a quickstart guide to demonstrate a basic functionality of the module, including sample code snippets.)
+To use the `Elasticsearch` connector in your Ballerina application, update the `.bal` file as follows:
+
+### Step 1: Import the module
+
+Import the `elasticcloud` module.
+
+```ballerina
+import ballerinax/elastic.elasticcloud;
+```
+
+### Step 2: Instantiate a new connector
+
+1. Create a `Config.toml` file and configure the obtained credentials in the above steps as follows:
+
+```bash
+elasticApiKey = "<Your API Key>"
+```
+
+2. Create an `elasticcloud:ApiKeysConfig` with the obtained API key and initialize the connector with it.
+
+```ballerina
+configurable string elasticApiKey = ?;
+
+final elasticcloud:Client elasticClient = check new({
+    authorization: "ApiKey " + elasticApiKey
+});
+```
+
+### Step 3: Invoke the connector operation
+
+Now, utilize the available connector operations.
+
+#### Create a deployment
+
+```ballerina
+public function main() returns error? {
+    elasticcloud:DeploymentCreateRequest newDeploymentRequest = {
+        name: "my-ballerina-deployment",
+        region: "gcp-asia-south1",
+        version: "8.17.0"
+    };
+
+    elasticcloud:CreateDeploymentQueries queries = {
+        template_id: "gcp-general-purpose"
+    };
+
+    elasticcloud:DeploymentCreateResponse deployment = check elasticClient->/deployments.post(
+        newDeploymentRequest, 
+        queries = queries
+    );
+}
+```
+
+### Step 4: Run the Ballerina application
+
+```bash
+bal run
+```
 
 ## Examples
 
-The `Elasticsearch` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/module-ballerinax-elasticsearch/tree/main/examples/), covering the following use cases:
+The `Elasticsearch` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-elasticsearch/tree/main/examples/), covering the following use cases:
 
-[//]: # (TODO: Add examples)
+1. [Deploymet](https://github.com/yasithrashan/module-ballerinax-elasticsearch/tree/examples/examples/deloyments) - Create, list, and manage Elasticsearch deployments in your organization.
+
+2. [API key handle](https://github.com/yasithrashan/module-ballerinax-elasticsearch/tree/examples/examples/api-key-handle/) - Create, list, and delete API keys for secure access to Elastic Cloud resources.
 
 ## Build from the source
 

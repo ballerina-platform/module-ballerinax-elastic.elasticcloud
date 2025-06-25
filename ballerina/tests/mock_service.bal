@@ -20,12 +20,8 @@ import ballerina/time;
 import ballerina/uuid;
 
 listener http:Listener httpListener = new (9000);
+
 http:Service mockService = service object {
-    # Get account information
-    #
-    # + return - returns can be any of following types
-    # http:Ok (The request has succeeded.)
-    # http:Response (The request has failed.)
     resource function get api/v1/account() returns AccountResponse|http:Response {
         AccountResponse response = {
             "id": "acc_12345",
@@ -38,10 +34,6 @@ http:Service mockService = service object {
         return response;
     }
 
-    # List Deployments
-    #
-    # + headers - Headers to be sent with the request 
-    # + return - The list of deployments that belong to the authenticated user
     resource function get api/v1/deployments() returns json|http:Response {
         json deploymentsResponse = {
             deployments: [
@@ -64,11 +56,6 @@ http:Service mockService = service object {
         return deploymentsResponse;
     }
 
-    # Get API key
-    #
-    # + apiKeyId - The API Key ID
-    # + headers - Headers to be sent with the request 
-    # + return - The API key metadata is retrieved 
     resource function get api/v1/users/auth/keys/[string keyId]() returns json|http:Response {
         json apiKey = {
             "id": keyId,
@@ -81,17 +68,11 @@ http:Service mockService = service object {
         return apiKey;
     }
 
-    # # Create API key
-    #
-    # + headers - Headers to be sent with the request 
-    # + payload - The request to create the API key 
-    # + return - The API key is created and returned in the body of the response 
     resource function post api/v1/users/auth/keys(@http:Payload json payload) returns json|http:Response|error {
         string keyId = "key_" + uuid:createType4AsString().substring(0, 8);
         string keyName = payload.name is string ? (check payload.name).toString() : "Unnamed Key";
         string? description = payload.description is string ? (check payload.description).toString() : ();
         string? expirationDate = payload.expiration_date is string ? (check payload.expiration_date).toString() : ();
-
         json apiKeyResponse = {
             "id": keyId,
             "name": keyName,
@@ -104,11 +85,6 @@ http:Service mockService = service object {
         return apiKeyResponse;
     }
 
-    # Get organizations list
-    #
-    # + return - returns can be any of following types
-    # http:Ok (The request has succeeded.)
-    # http:Response (The request has failed.)
     resource function get api/v1/organizations() returns json|http:Response {
         json organizationsResponse = {
             "organizations": [
@@ -132,10 +108,6 @@ http:Service mockService = service object {
         return organizationsResponse;
     }
 
-    # Create Deployment
-    #
-    # + request - The HTTP request containing the deployment definition
-    # + return - The deployment creation response
     resource function post api/v1/deployments(http:Request request) returns DeploymentCreateResponse|http:Response {
         json|error payloadJson = request.getJsonPayload();
         if payloadJson is error {
@@ -166,16 +138,9 @@ http:Service mockService = service object {
                 }
             ]
         };
-
         return response;
     }
 
-    # Search Deployments
-    #
-    # + headers - Headers to be sent with the request 
-    # + queries - Queries to be sent with the request 
-    # + payload - (Optional) The search query to run. When not specified, all deployments are matched 
-    # + return - The list of deployments that match the specified query and belong to the authenticated user 
     resource function post api/v1/deployments/_search(http:Request req) returns DeploymentsSearchResponse|http:Response {
         json|error payloadJson = req.getJsonPayload();
         if payloadJson is error {
@@ -216,11 +181,6 @@ http:Service mockService = service object {
         return response;
     }
 
-    # Delete API key
-    #
-    # + keyId - The API Key ID to delete
-    # + headers - Headers to be sent with the request 
-    # + return - The API key deletion response 
     resource function delete api/v1/users/auth/keys/[string keyId]() returns json|http:Response {
         if keyId == "" {
             return createErrorResponse(400, "API Key ID is required");
@@ -242,7 +202,6 @@ function init() returns error? {
     check httpListener.'start();
 }
 
-// Helper function to create error responses
 function createErrorResponse(int statusCode, string message) returns http:Response {
     http:Response response = new;
     response.statusCode = statusCode;
