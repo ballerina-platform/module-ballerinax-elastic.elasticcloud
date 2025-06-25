@@ -1,12 +1,12 @@
 [package]
 distribution = "2201.12.0"
 org = "ballerinax"
-name = "elasticsearch"
+name = "elastic.elasticcloud"
 version = "@toml.version@"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
-keywords = [] # TODO: Add keywords
-# icon = "icon.png" # TODO: Add icon
+keywords = ["Elasticsearch", "Elastic Cloud"]
+icon = "icon.png"
 repository = "https://github.com/ballerina-platform/module-ballerinax-elasticsearch"
 
 [build-options]

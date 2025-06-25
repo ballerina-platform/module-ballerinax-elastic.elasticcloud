@@ -1,4 +1,4 @@
-_Author_:  Yasith Rashan Perera \
+_Author_:  @yasithrashan \
 _Created_: 2025-06-20 \
 _Updated_: 2025-06-20 \
 _Edition_: Swan Lake
@@ -32,4 +32,4 @@ The following command was used to generate the Ballerina client from the OpenAPI
 ```bash
 bal openapi -i docs/spec/openapi.json --mode client -o ballerina
 ```
-Note: The license year is hardcoded to 2024, change if necessary.
+Note: The license year is hardcoded to 2025, change if necessary.
