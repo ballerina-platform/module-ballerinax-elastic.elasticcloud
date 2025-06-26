@@ -15,15 +15,13 @@
 // under the License.
 
 import ballerina/http;
-import ballerina/io;
+import ballerina/log;
 import ballerina/time;
 import ballerina/uuid;
 
-listener http:Listener httpListener = new (9000);
-
-http:Service mockService = service object {
-    resource function get api/v1/account() returns AccountResponse|http:Response {
-        AccountResponse response = {
+service /api/v1 on new http:Listener(9000) {
+    resource function get account() returns AccountResponse {
+        return {
             "id": "acc_12345",
             "trust": {
                 "direct_trust": true,
@@ -31,44 +29,34 @@ http:Service mockService = service object {
                 "trustAll": false
             }
         };
-        return response;
     }
 
-    resource function get api/v1/deployments() returns json|http:Response {
-        json deploymentsResponse = {
+    resource function get deployments() returns DeploymentsListResponse {
+        return {
             deployments: [
                 {
-                    "id": "dep_001",
-                    "name": "production-cluster",
-                    "region": "us-west",
-                    "status": "running",
-                    "resources": []
+                    id: "dep_001",
+                    name: "production-cluster",
+                    resources: []
                 },
                 {
-                    "id": "dep_002",
-                    "name": "test-cluster",
-                    "region": "eu-central",
-                    "status": "stopped",
-                    "resources": []
+                    id: "dep_002",
+                    name: "test-cluster",
+                    resources: []
                 }
             ]
         };
-        return deploymentsResponse;
     }
 
-    resource function get api/v1/users/auth/keys/[string keyId]() returns json|http:Response {
-        json apiKey = {
-            "id": keyId,
-            "name": "My test key",
-            "description": "This is a test API key",
-            "user_id": "user_001",
-            "creation_date": "2023-01-01T00:00:00Z",
-            "expiration_date": "2025-01-01T00:00:00Z"
+    resource function get users/auth/keys/[string keyId]() returns ApiKeyResponse {
+        return {
+            id: keyId,
+            description: "This is a test API key",
+            creationDate: ""
         };
-        return apiKey;
     }
 
-    resource function post api/v1/users/auth/keys(@http:Payload json payload) returns json|http:Response|error {
+    resource function post users/auth/keys(@http:Payload json payload) returns json|http:Response|error {
         string keyId = "key_" + uuid:createType4AsString().substring(0, 8);
         string keyName = payload.name is string ? (check payload.name).toString() : "Unnamed Key";
         string? description = payload.description is string ? (check payload.description).toString() : ();
@@ -80,12 +68,12 @@ http:Service mockService = service object {
             "user_id": "user_001",
             "creation_date": time:utcToString(time:utcNow()),
             "expiration_date": expirationDate,
-            "api_key": "elastic_api_key_" + uuid:createType4AsString() // Mock API key value
+            "api_key": "elastic_api_key_" + uuid:createType4AsString()
         };
         return apiKeyResponse;
     }
 
-    resource function get api/v1/organizations() returns json|http:Response {
+    resource function get organizations() returns json|http:Response {
         json organizationsResponse = {
             "organizations": [
                 {
@@ -108,12 +96,8 @@ http:Service mockService = service object {
         return organizationsResponse;
     }
 
-    resource function post api/v1/deployments(http:Request request) returns DeploymentCreateResponse|http:Response {
-        json|error payloadJson = request.getJsonPayload();
-        if payloadJson is error {
-            return createErrorResponse(400, "Invalid JSON payload");
-        }
-        json|error nameJson = payloadJson.name;
+    resource function post deployments(@http:Payload json payload) returns DeploymentCreateResponse|http:Response {
+        json|error nameJson = payload.name;
         if nameJson is error || nameJson is () {
             return createErrorResponse(400, "Deployment name is required");
         }
@@ -121,7 +105,7 @@ http:Service mockService = service object {
         if deploymentName == "" {
             return createErrorResponse(400, "Deployment name is required");
         }
-        json|error aliasJson = payloadJson.alias;
+        json|error aliasJson = payload.alias;
         string? alias = aliasJson is string ? aliasJson : ();
         string deploymentId = "dep_" + deploymentName.toLowerAscii() + "_123";
         DeploymentCreateResponse response = {
@@ -141,11 +125,7 @@ http:Service mockService = service object {
         return response;
     }
 
-    resource function post api/v1/deployments/_search(http:Request req) returns DeploymentsSearchResponse|http:Response {
-        json|error payloadJson = req.getJsonPayload();
-        if payloadJson is error {
-            return createErrorResponse(400, "Invalid JSON payload");
-        }
+    resource function post deployments/_search(@http:Payload json payload) returns DeploymentsSearchResponse|http:Response {
         DeploymentsSearchResponse response = {
             deployments: [
                 {
@@ -181,25 +161,17 @@ http:Service mockService = service object {
         return response;
     }
 
-    resource function delete api/v1/users/auth/keys/[string keyId]() returns json|http:Response {
+    resource function delete users/auth/keys/[string keyId]() returns json|http:Response {
         if keyId == "" {
             return createErrorResponse(400, "API Key ID is required");
         }
+
         json deleteResponse = {
             "found": true,
             "invalidated": true
         };
         return deleteResponse;
     }
-};
-
-function init() returns error? {
-    if isLiveServer {
-        io:println("Running against live server, skipping mock service initialization.");
-        return;
-    }
-    check httpListener.attach(mockService, "/");
-    check httpListener.'start();
 }
 
 function createErrorResponse(int statusCode, string message) returns http:Response {
@@ -214,4 +186,12 @@ function createErrorResponse(int statusCode, string message) returns http:Respon
     response.setJsonPayload(errorBody);
     response.setHeader("Content-Type", "application/json");
     return response;
+}
+
+function init() returns error? {
+    if isLiveServer {
+        log:printInfo("Skiping mock server initialization as the tests are running on live server");
+        return;
+    }
+    log:printInfo("Initiating mock server");
 }

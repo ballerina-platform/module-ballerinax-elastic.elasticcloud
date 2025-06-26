@@ -288,7 +288,6 @@ When contributing to this testing framework:
 For detailed information about the Elasticsearch Cloud API:
 - [Official API Documentation](https://www.elastic.co/guide/en/cloud/current/ec-restful-api.html)
 - [Authentication Guide](https://www.elastic.co/guide/en/cloud/current/ec-api-authentication.html)
-- [API Reference](https://www.elastic.co/guide/en/cloud/current/ec-api-reference.html)
 
 ## License
 
