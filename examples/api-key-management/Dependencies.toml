@@ -324,7 +324,7 @@ modules = [
 
 [[package]]
 org = "yasith_rashan"
-name = "deloyments"
+name = "api_key_management"
 version = "0.1.0"
 dependencies = [
 	{org = "ballerina", name = "log"},
@@ -332,6 +332,6 @@ dependencies = [
 	{org = "ballerinax", name = "elastic.elasticcloud"}
 ]
 modules = [
-	{org = "yasith_rashan", packageName = "deloyments", moduleName = "deloyments"}
+	{org = "yasith_rashan", packageName = "api_key_management", moduleName = "api_key_management"}
 ]
 

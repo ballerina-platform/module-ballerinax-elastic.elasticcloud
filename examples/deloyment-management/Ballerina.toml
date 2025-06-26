@@ -1,6 +1,6 @@
 [package]
 org = "yasith_rashan"
-name = "api_key_handle"
+name = "deloyment_management"
 version = "0.1.0"
 distribution = "2201.12.7"
 
@@ -9,7 +9,6 @@ org="ballerinax"
 name="elastic.elasticcloud"
 version="2.0.0"
 repository="local"
-
 
 [build-options]
 observabilityIncluded = true

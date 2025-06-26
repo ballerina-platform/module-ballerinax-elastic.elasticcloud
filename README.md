@@ -161,7 +161,7 @@ public function main() returns error? {
     };
 
     elasticcloud:DeploymentCreateResponse deployment = check elasticClient->/deployments.post(
-        newDeploymentRequest, 
+        newDeploymentRequest,
         queries = queries
     );
 }
@@ -177,7 +177,7 @@ bal run
 
 The `Elasticsearch` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-elasticsearch/tree/main/examples/), covering the following use cases:
 
-1. [Deploymet](https://github.com/yasithrashan/module-ballerinax-elasticsearch/tree/examples/examples/deloyments) - Create, list, and manage Elasticsearch deployments in your organization.
+1. [Deployment](https://github.com/yasithrashan/module-ballerinax-elasticsearch/tree/examples/examples/deloyments) - Create, list, and manage Elasticsearch deployments in your organization.
 
 2. [API key handle](https://github.com/yasithrashan/module-ballerinax-elasticsearch/tree/examples/examples/api-key-handle/) - Create, list, and delete API keys for secure access to Elastic Cloud resources.
 
