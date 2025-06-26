@@ -24,7 +24,7 @@ plugins {
 
 description = 'Elasticsearch - Ballerina'
 
-def packageName = "elasticsearch"
+def packageName = "elastic.elasticcloud"
 def packageOrg = "ballerinax"
 def tomlVersion = stripBallerinaExtensionVersion("${project.version}")
 def ballerinaTomlFilePlaceHolder = new File("${project.rootDir}/build-config/resources/Ballerina.toml")

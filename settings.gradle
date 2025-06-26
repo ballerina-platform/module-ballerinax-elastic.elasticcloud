@@ -27,11 +27,11 @@ plugins {
     id "com.gradle.enterprise" version "3.2"
 }
 
-rootProject.name = 'module-ballerinax-elasticsearch'
+rootProject.name = 'module-ballerinax-elastic.elasticcloud'
 
-include ':elasticsearch-ballerina'
+include ':elastic.elasticcloud-ballerina'
 
-project(':elasticsearch-ballerina').projectDir = file("ballerina")
+project(':elastic.elasticcloud-ballerina').projectDir = file("ballerina")
 
 gradleEnterprise {
     buildScan {
