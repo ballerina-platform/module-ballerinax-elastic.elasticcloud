@@ -30,7 +30,8 @@ The `ballerinax/elasticcloud` package offers APIs to connect and interact with E
 2. Enter your email and password credentials.
 3. You can also sign in using Google, Microsoft, or SSO if configured.
 
-![Elastic Cloud Login](docs/setup/resources/elastic-cloud-console-login.png)
+![Elastic Cloud Login](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-elasticsearch/refs/heads/main/docs/setup/resources/elastic-cloud-console-login.png)
+
 
 ### Step 3: Access the Elastic Cloud Console
 
@@ -38,14 +39,14 @@ The `ballerinax/elasticcloud` package offers APIs to connect and interact with E
 2. Here you can see your hosted deployments and manage serverless projects.
 3. The dashboard shows your deployment status, version, and available actions.
 
-![Elastic Cloud Dashboard](docs/setup/resources/elastic-cloud-console-dashboard.png)
+![Elastic Cloud Dashboard](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-elasticsearch/refs/heads/main/docs/setup/resources/elastic-cloud-console-dashboard.png)
 
 ### Step 3: Create an Elastic Cloud Deployment
 
 1. Open the [Elastic Cloud Console](https://cloud.elastic.co/).
 2. Click on "Create deployment" to set up a new Elasticsearch cluster.
 
-![Elastic Cloud Console](docs/setup/resources/elastic-cloud-console-deployment.png)
+![Elastic Cloud Console](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-elasticsearch/refs/heads/main/docs/setup/resources/elastic-cloud-console-deployment.png)
 
 3. Choose your deployment configuration:
    - Select your cloud provider (AWS, Google Cloud, or Azure)
@@ -59,7 +60,7 @@ The `ballerinax/elasticcloud` package offers APIs to connect and interact with E
 2. Go to the organization management page where you can manage members, contacts, API keys, and security settings.
 3. You will see your organization details including the Organization ID.
 
-![Organization Settings](docs/setup/resources/elastic-cloud-console-organization.png)
+![Organization Settings](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-elasticsearch/refs/heads/main/docs/setup/resources/elastic-cloud-console-organization.png)
 
 ### Step 5: Create API Keys
 
@@ -67,7 +68,7 @@ The `ballerinax/elasticcloud` package offers APIs to connect and interact with E
 2. You will see a list of existing API keys and can create new ones.
 3. Click the "Create API key" button to generate new credentials.
 
-![API Keys Management](docs/setup/resources/elastic-cloud-console-api-create.png)
+![API Keys Management](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-elasticsearch/refs/heads/main/docs/setup/resources/elastic-cloud-console-api-create.png)
 
 ### Step 6: Configure Your API Key
 
