@@ -18,7 +18,6 @@ import ballerina/http;
 import ballerina/os;
 import ballerina/test;
 import ballerina/uuid;
-import ballerina/http;
 
 configurable boolean isLiveServer = os:getEnv("IS_LIVE_SERVER") == "true";
 configurable string apiKey = isLiveServer ? os:getEnv("ELASTIC_API_KEY") : "test-api-key-12345";
@@ -89,7 +88,6 @@ isolated function testCreateDeploymentLiveSuccess() returns error? {
     DeploymentCreateResponse response = check elasticClient->/deployments.post(createRequest, validate_only = true);
     test:assertTrue(response.name.length() > 0, "Deployment name should not be empty");
 }
-
 
 @test:Config {
     enable: !isLiveServer,
