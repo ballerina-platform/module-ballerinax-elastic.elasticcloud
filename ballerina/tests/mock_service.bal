@@ -15,18 +15,15 @@
 // under the License.
 
 import ballerina/http;
-import ballerina/log;
 import ballerina/time;
 import ballerina/uuid;
 
 service /api/v1 on new http:Listener(9000) {
     resource function get account() returns AccountResponse {
         return {
-            "id": "acc_12345",
-            "trust": {
-                "direct_trust": true,
-                "external_trust": false,
-                "trustAll": false
+            id: "acc_12345",
+            trust: {
+                trustAll: false
             }
         };
     }
@@ -56,76 +53,59 @@ service /api/v1 on new http:Listener(9000) {
         };
     }
 
-    resource function post users/auth/keys(@http:Payload json payload) returns json|http:Response|error {
+    resource isolated function post users/auth/keys(CreateApiKeyRequest payload) returns ApiKeyResponse {
         string keyId = "key_" + uuid:createType4AsString().substring(0, 8);
-        string keyName = payload.name is string ? (check payload.name).toString() : "Unnamed Key";
-        string? description = payload.description is string ? (check payload.description).toString() : ();
-        string? expirationDate = payload.expiration_date is string ? (check payload.expiration_date).toString() : ();
-        json apiKeyResponse = {
-            "id": keyId,
-            "name": keyName,
-            "description": description,
-            "user_id": "user_001",
-            "creation_date": time:utcToString(time:utcNow()),
-            "expiration_date": expirationDate,
-            "api_key": "elastic_api_key_" + uuid:createType4AsString()
-        };
-        return apiKeyResponse;
-    }
-
-    resource function get organizations() returns json|http:Response {
-        json organizationsResponse = {
-            "organizations": [
-                {
-                    "id": "org_001",
-                    "name": "Test Organization 1",
-                    "type": "standard",
-                    "created_at": "2023-01-01T00:00:00Z",
-                    "updated_at": "2023-06-01T00:00:00Z"
-                },
-                {
-                    "id": "org_002",
-                    "name": "Test Organization 2",
-                    "type": "enterprise",
-                    "created_at": "2023-02-01T00:00:00Z",
-                    "updated_at": "2023-06-15T00:00:00Z"
-                }
-            ],
-            "next_page": null
-        };
-        return organizationsResponse;
-    }
-
-    resource function post deployments(@http:Payload json payload) returns DeploymentCreateResponse|http:Response {
-        json|error nameJson = payload.name;
-        if nameJson is error || nameJson is () {
-            return createErrorResponse(400, "Deployment name is required");
-        }
-        string deploymentName = nameJson.toString();
-        if deploymentName == "" {
-            return createErrorResponse(400, "Deployment name is required");
-        }
-        json|error aliasJson = payload.alias;
-        string? alias = aliasJson is string ? aliasJson : ();
-        string deploymentId = "dep_" + deploymentName.toLowerAscii() + "_123";
-        DeploymentCreateResponse response = {
-            created: true,
-            name: deploymentName,
-            alias: alias,
-            id: deploymentId,
-            resources: [
-                {
-                    id: "res_001",
-                    kind: "elasticsearch",
-                    region: "us-west-1",
-                    refId: "main-elasticsearch"
-                }
-            ]
+        ApiKeyResponse response = {
+            id: keyId,
+            description: payload.description,
+            creationDate: time:utcNow().toString()
         };
         return response;
     }
 
-    resource function post deployments/_search(@http:Payload json payload) returns DeploymentsSearchResponse|http:Response {
+    resource function get organizations() returns OrganizationList|error {
+        OrganizationList organizationsResponse = {
+            organizations: [
+                {
+                    id: "org_001",
+                    name: "Test Organization 1"
+                },
+                {
+                    id: "org_002",
+                    name: "Test Organization 2"
+                }
+            ]
+        };
+        return organizationsResponse;
+    }
+
+    resource function post deployments(DeploymentCreateRequest payload) returns DeploymentCreateResponse|error {
+    string? deploymentName = payload.name;
+
+    if deploymentName is () || deploymentName == "" {
+        return error("Deployment name is required and cannot be empty");
+    }
+    
+    string? alias = payload.alias;
+    string deploymentId = "dep_" + deploymentName.toLowerAscii() + "_123";
+    DeploymentCreateResponse response = {
+        created: true,
+        name: deploymentName,
+        alias: alias,
+        id: deploymentId,
+        resources: [
+            {
+                id: "res_001",
+                kind: "elasticsearch",
+                region: "us-west-1",
+                refId: "main-elasticsearch"
+            }
+        ]
+    };
+    return response;
+}
+
+    resource function post deployments/_search(SearchRequest payload) returns DeploymentsSearchResponse|error {
         DeploymentsSearchResponse response = {
             deployments: [
                 {
@@ -161,37 +141,18 @@ service /api/v1 on new http:Listener(9000) {
         return response;
     }
 
-    resource function delete users/auth/keys/[string keyId]() returns json|http:Response {
+    resource function delete users/auth/keys/[string keyId]() returns json|http:BadRequest {
         if keyId == "" {
-            return createErrorResponse(400, "API Key ID is required");
+            return <http:BadRequest>{
+                body: {
+                    message: "Key ID is required"
+                }
+            };
         }
-
         json deleteResponse = {
             "found": true,
             "invalidated": true
         };
         return deleteResponse;
     }
-}
-
-function createErrorResponse(int statusCode, string message) returns http:Response {
-    http:Response response = new;
-    response.statusCode = statusCode;
-    json errorBody = {
-        "error": {
-            "type": "api_error",
-            "message": message
-        }
-    };
-    response.setJsonPayload(errorBody);
-    response.setHeader("Content-Type", "application/json");
-    return response;
-}
-
-function init() returns error? {
-    if isLiveServer {
-        log:printInfo("Skiping mock server initialization as the tests are running on live server");
-        return;
-    }
-    log:printInfo("Initiating mock server");
 }
