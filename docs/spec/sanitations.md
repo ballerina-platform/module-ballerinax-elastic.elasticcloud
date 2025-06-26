@@ -5,8 +5,8 @@ _Edition_: Swan Lake
 
 # Sanitation for OpenAPI specification
 
-This document records the sanitation done on top of the official OpenAPI specification from Elastic Cloud.  
-The OpenAPI specification is obtained from the [Elastic Cloud OpenAPI Documentation](https://api.elastic-cloud.com/api/v1/api-docs-user/swagger.json).  
+This document records the sanitation done on top of the official OpenAPI specification from Elastic Cloud.
+The OpenAPI specification is obtained from the [Elastic Cloud OpenAPI Documentation](https://api.elastic-cloud.com/api/v1/api-docs-user/swagger.json).
 
 These changes are implemented to enhance the overall usability and readability of the generated client.
 These changes are done in order to improve the overall usability, and as workarounds for some known language limitations.
