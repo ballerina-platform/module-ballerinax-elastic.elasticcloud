@@ -15,12 +15,11 @@
 // under the License.
 
 import ballerina/http;
-import ballerina/os;
 import ballerina/test;
 import ballerina/uuid;
 
-configurable boolean isLiveServer = os:getEnv("IS_LIVE_SERVER") == "true";
-configurable string apiKey = isLiveServer ? os:getEnv("ELASTIC_API_KEY") : "test-api-key-12345";
+configurable boolean isLiveServer = false;
+configurable string apiKey = "test-api-key-12345";
 configurable string serviceUrl = isLiveServer ? "https://api.elastic-cloud.com/api/v1" : "http://localhost:9000/api/v1";
 
 ApiKeysConfig apiKeyConfig = {

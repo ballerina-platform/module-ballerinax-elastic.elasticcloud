@@ -6,6 +6,8 @@
 
 ## Overview
 
+![Ballerina Elasticsearch Connector](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-elasticsearch/refs/heads/main/docs/setup/resources/ballerinax-elasticcloud.png)
+
 [//]: # (TODO: Add overview mentioning the purpose of the module, supported REST API versions, and other high-level details.)
 
 Elastic Cloud is a powerful cloud-hosted Elasticsearch service provided by Elastic, offering scalable search and analytics capabilities with enterprise-grade security and management features.

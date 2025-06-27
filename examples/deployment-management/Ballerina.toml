@@ -1,6 +1,6 @@
 [package]
 org = "yasith_rashan"
-name = "deloyment_management"
+name = "deployment_management"
 version = "0.1.0"
 distribution = "2201.12.7"
 
