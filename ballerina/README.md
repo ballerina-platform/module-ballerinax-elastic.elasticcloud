@@ -46,6 +46,8 @@ The `ballerinax/elasticcloud` package offers APIs to connect and interact with E
    - Configure your deployment size and features
 4. Click "Create deployment" and wait for it to be ready.
 
+![Elastic Cloud Create Deployment](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-elasticsearch/refs/heads/main/docs/setup/resources/elastic-cloud-create-deployment.png)
+
 ### Step 4: Navigate to Organization Settings
 
 1. From the dashboard, click on "Organization" in the top navigation.
@@ -71,6 +73,9 @@ The `ballerinax/elasticcloud` package offers APIs to connect and interact with E
 
 2. The API key is specifically for Elastic Cloud APIs and provides access to organization and deployment management.
 3. Click "Create API key" to generate your credentials.
+
+![Generate API Key](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-elasticsearch/refs/heads/main/docs/setup/resources/elastic-cloud-generate-api-key.png)
+
 4. **Important**: Copy and securely store the generated API key as it won't be shown again.
 
 ### Step 7: Set Environment Variables or Create Config.toml
@@ -85,7 +90,6 @@ Create a `Config.toml` file in your project root directory with the following co
 # Elastic Cloud Configuration
 isLiveServer=true
 apiKey = "<Your API Key>"
-
 ```
 
 > **Note**: Make sure to add `Config.toml` to your `.gitignore` file to avoid committing sensitive credentials to version control.
@@ -155,6 +159,6 @@ bal run
 
 The `Elasticsearch` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-elasticsearch/tree/main/examples/), covering the following use cases:
 
-1. [Deployment](https://github.com/yasithrashan/module-ballerinax-elasticsearch/tree/examples/examples/deloyments) - Create, list, and manage Elasticsearch deployments in your organization.
+1. [Manage Deployment](https://github.com/yasithrashan/module-ballerinax-elasticsearch/tree/examples/examples/deloyments) - Create, list, and manage Elasticsearch deployments in your organization.
 
 2. [API key Management](https://github.com/yasithrashan/module-ballerinax-elasticsearch/tree/examples/examples/api-key-handle/) - Create, list, and delete API keys for secure access to Elastic Cloud resources.

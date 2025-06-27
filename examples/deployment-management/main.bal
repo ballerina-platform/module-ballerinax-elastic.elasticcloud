@@ -51,30 +51,29 @@ public function main() returns error? {
     foreach elasticcloud:DeploymentsListingData deployment in deploymentsList.deployments {
         io:println(`- ID: ${deployment.id}`);
 
-        // Use local variable with type guard to avoid explicit casting
-        var deploymentName = deployment.name;
-        if deploymentName is string {
-            io:println(`  Name: ${deploymentName != "" ? deploymentName : "N/A"}`);
+        string? name = deployment.name;
+        if name is string {
+            io:println(`  Name: ${name != "" ? name : "N/A"}`);
         }
 
-        var deploymentAlias = deployment["alias"];
-        if deploymentAlias is string {
-            io:println(`  Alias: ${deploymentAlias != "" ? deploymentAlias : "N/A"}`);
+        anydata aliasValue = deployment["alias"];
+        if aliasValue is string {
+            io:println(`  Alias: ${aliasValue != "" ? aliasValue : "N/A"}`);
         }
 
-        var deploymentHealthy = deployment["healthy"];
-        if deploymentHealthy is boolean {
-            io:println(`  Healthy: ${deploymentHealthy.toString()}`);
+        anydata healthyValue = deployment["healthy"];
+        if healthyValue is boolean {
+            io:println(`  Healthy: ${healthyValue.toString()}`);
         }
 
-        var deploymentRegion = deployment["region"];
-        if deploymentRegion is string {
-            io:println(`  Region: ${deploymentRegion != "" ? deploymentRegion : "N/A"}`);
+        anydata regionValue = deployment["region"];
+        if regionValue is string {
+            io:println(`  Region: ${regionValue != "" ? regionValue : "N/A"}`);
         }
 
-        var deploymentCloudProvider = deployment["cloudProvider"];
-        if deploymentCloudProvider is string {
-            io:println(`  Cloud Provider: ${deploymentCloudProvider != "" ? deploymentCloudProvider : "N/A"}`);
+        anydata cloudProviderValue = deployment["cloudProvider"];
+        if cloudProviderValue is string {
+            io:println(`  Cloud Provider: ${cloudProviderValue != "" ? cloudProviderValue : "N/A"}`);
         }
     }
 
@@ -88,14 +87,15 @@ public function main() returns error? {
     if searchResults.returnCount > 0 {
         foreach elasticcloud:DeploymentSearchResponse deployment in searchResults.deployments {
             io:println(`- ID: ${deployment.id}`);
-            var deploymentName = deployment.name;
-            if deploymentName is string {
-                io:println(`  Name: ${deploymentName}`);
+
+            string? name = deployment.name;
+            if name is string {
+                io:println(`  Name: ${name}`);
             }
 
-            var deploymentHealthy = deployment.healthy;
-            if deploymentHealthy is boolean {
-                io:println(`  Healthy: ${deploymentHealthy.toString()}`);
+            boolean? healthy = deployment.healthy;
+            if healthy is boolean {
+                io:println(`  Healthy: ${healthy.toString()}`);
             }
         }
     } else {
@@ -109,19 +109,15 @@ public function main() returns error? {
     if allSearchResults.returnCount > 0 {
         foreach elasticcloud:DeploymentSearchResponse deployment in allSearchResults.deployments {
             io:println(`- ID: ${deployment.id}`);
-            var deploymentName = deployment.name;
-            if deploymentName is string {
-                io:println(`  Name: ${deploymentName}`);
+
+            string? name = deployment.name;
+            if name is string {
+                io:println(`  Name: ${name}`);
             }
 
-            var deploymentHealthy = deployment.healthy;
-            if deploymentHealthy is boolean {
-                io:println(`  Healthy: ${deploymentHealthy.toString()}`);
-            }
-
-            var deploymentRegion = deployment["region"];
-            if deploymentRegion is string {
-                io:println(`  Region: ${deploymentRegion}`);
+            boolean? healthy = deployment.healthy;
+            if healthy is boolean {
+                io:println(`  Healthy: ${healthy.toString()}`);
             }
         }
     }
