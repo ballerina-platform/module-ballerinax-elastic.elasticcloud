@@ -50,20 +50,31 @@ public function main() returns error? {
 
     foreach elasticcloud:DeploymentsListingData deployment in deploymentsList.deployments {
         io:println(`- ID: ${deployment.id}`);
-        if deployment.name is string {
-            io:println(`  Name: ${deployment.name != "" ? deployment.name : "N/A"}`);
+
+        // Use local variable with type guard to avoid explicit casting
+        var deploymentName = deployment.name;
+        if deploymentName is string {
+            io:println(`  Name: ${deploymentName != "" ? deploymentName : "N/A"}`);
         }
-        if deployment["alias"] is string {
-            io:println(`  Alias: ${<string>deployment["alias"] != "" ? <string>deployment["alias"] : "N/A"}`);
+
+        var deploymentAlias = deployment["alias"];
+        if deploymentAlias is string {
+            io:println(`  Alias: ${deploymentAlias != "" ? deploymentAlias : "N/A"}`);
         }
-        if deployment["healthy"] is boolean {
-            io:println(`  Healthy: ${(<boolean>deployment["healthy"]).toString()}`);
+
+        var deploymentHealthy = deployment["healthy"];
+        if deploymentHealthy is boolean {
+            io:println(`  Healthy: ${deploymentHealthy.toString()}`);
         }
-        if deployment["region"] is string {
-            io:println(`  Region: ${<string>deployment["region"] != "" ? <string>deployment["region"] : "N/A"}`);
+
+        var deploymentRegion = deployment["region"];
+        if deploymentRegion is string {
+            io:println(`  Region: ${deploymentRegion != "" ? deploymentRegion : "N/A"}`);
         }
-        if deployment["cloudProvider"] is string {
-            io:println(`  Cloud Provider: ${<string>deployment["cloudProvider"] != "" ? <string>deployment["cloudProvider"] : "N/A"}`);
+
+        var deploymentCloudProvider = deployment["cloudProvider"];
+        if deploymentCloudProvider is string {
+            io:println(`  Cloud Provider: ${deploymentCloudProvider != "" ? deploymentCloudProvider : "N/A"}`);
         }
     }
 
@@ -77,11 +88,14 @@ public function main() returns error? {
     if searchResults.returnCount > 0 {
         foreach elasticcloud:DeploymentSearchResponse deployment in searchResults.deployments {
             io:println(`- ID: ${deployment.id}`);
-            if deployment.name is string {
-                io:println(`  Name: ${deployment.name}`);
+            var deploymentName = deployment.name;
+            if deploymentName is string {
+                io:println(`  Name: ${deploymentName}`);
             }
-            if deployment.healthy is boolean {
-                io:println(`  Healthy: ${deployment.healthy.toString()}`);
+
+            var deploymentHealthy = deployment.healthy;
+            if deploymentHealthy is boolean {
+                io:println(`  Healthy: ${deploymentHealthy.toString()}`);
             }
         }
     } else {
@@ -95,14 +109,19 @@ public function main() returns error? {
     if allSearchResults.returnCount > 0 {
         foreach elasticcloud:DeploymentSearchResponse deployment in allSearchResults.deployments {
             io:println(`- ID: ${deployment.id}`);
-            if deployment.name is string {
-                io:println(`  Name: ${deployment.name}`);
+            var deploymentName = deployment.name;
+            if deploymentName is string {
+                io:println(`  Name: ${deploymentName}`);
             }
-            if deployment.healthy is boolean {
-                io:println(`  Healthy: ${deployment.healthy.toString()}`);
+
+            var deploymentHealthy = deployment.healthy;
+            if deploymentHealthy is boolean {
+                io:println(`  Healthy: ${deploymentHealthy.toString()}`);
             }
-            if deployment["region"] is string {
-                io:println(`  Region: ${<string>deployment["region"]}`);
+
+            var deploymentRegion = deployment["region"];
+            if deploymentRegion is string {
+                io:println(`  Region: ${deploymentRegion}`);
             }
         }
     }
