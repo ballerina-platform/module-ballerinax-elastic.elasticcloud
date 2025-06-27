@@ -8,7 +8,6 @@
 
 ![Ballerina Elasticsearch Connector](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-elasticsearch/refs/heads/main/docs/setup/resources/ballerinax-elasticcloud.png)
 
-[//]: # (TODO: Add overview mentioning the purpose of the module, supported REST API versions, and other high-level details.)
 
 Elastic Cloud is a powerful cloud-hosted Elasticsearch service provided by Elastic, offering scalable search and analytics capabilities with enterprise-grade security and management features.
 
@@ -16,7 +15,6 @@ The `ballerinax/elasticcloud` package offers APIs to connect and interact with E
 
 ## Setup guide
 
-[//]: # (TODO: Add detailed steps to obtain credentials and configure the module.)
 
 ### Step 1: Sign up for an Elastic Cloud Account
 
@@ -85,23 +83,9 @@ The `ballerinax/elasticcloud` package offers APIs to connect and interact with E
 
 ### Step 7: Set Environment Variables or Create Config.toml
 
-You have two options for configuring your credentials securely:
+You have an option for configuring your credentials securely:
 
-#### Option A: Set Environment Variables (Recommended for Production)
-
-**For Linux/MacOS:**
-```bash
-export IS_LIVE_SERVER=true
-export ELASTIC_API_KEY="<Your API Key>"
-```
-
-**For Windows:**
-```cmd
-set IS_LIVE_SERVER=true
-set ELASTIC_API_KEY=<Your API Key>
-```
-
-#### Option B: Create Config.toml File (Good for Development)
+#### Option: Create Config.toml File (Good for Development)
 
 Create a `Config.toml` file in your project root directory with the following content:
 
@@ -181,7 +165,7 @@ The `Elasticsearch` connector provides practical examples illustrating usage in 
 
 1. [Deployment](https://github.com/yasithrashan/module-ballerinax-elasticsearch/tree/examples/examples/deloyments) - Create, list, and manage Elasticsearch deployments in your organization.
 
-2. [API key handle](https://github.com/yasithrashan/module-ballerinax-elasticsearch/tree/examples/examples/api-key-handle/) - Create, list, and delete API keys for secure access to Elastic Cloud resources.
+2. [API key Management](https://github.com/yasithrashan/module-ballerinax-elasticsearch/tree/examples/examples/api-key-handle/) - Create, list, and delete API keys for secure access to Elastic Cloud resources.
 
 ## Build from the source
 
