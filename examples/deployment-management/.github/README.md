@@ -1,1 +1,1 @@
-../examples/deployment-management/deployment-management.md
+../deployment-management.md

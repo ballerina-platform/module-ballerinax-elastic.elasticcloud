@@ -1,1 +1,1 @@
-../examples/api-key-management/api-key-management.md
+../api-key-management.md
