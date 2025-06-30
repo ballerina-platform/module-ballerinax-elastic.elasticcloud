@@ -58,7 +58,7 @@ allprojects {
 def moduleVersion = project.version.replace("-SNAPSHOT", "")
 
 task build {
-    dependsOn(':elasticsearch-ballerina:build')
+    dependsOn(':elastic.elasticcloud-ballerina:build')
 }
 
 release {

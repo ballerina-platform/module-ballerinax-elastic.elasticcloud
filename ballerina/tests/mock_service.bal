@@ -85,7 +85,6 @@ service /api/v1 on new http:Listener(9000) {
     if deploymentName is () || deploymentName == "" {
         return error("Deployment name is required and cannot be empty");
     }
-    
     string? alias = payload.alias;
     string deploymentId = "dep_" + deploymentName.toLowerAscii() + "_123";
     DeploymentCreateResponse response = {
