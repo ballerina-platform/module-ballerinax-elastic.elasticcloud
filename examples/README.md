@@ -2,13 +2,21 @@
 
 The `ballerinax/elasticsearch` connector provides practical examples illustrating usage in various scenarios.
 
-[//]: # (TODO: Add examples)
-1. 
-2. 
+1. [Manage Deployment](https://github.com/ballerina-platform/module-ballerinax-elasticsearch/tree/main/examples/deployment-management) - Create, list, and manage Elasticsearch deployments in your organization.
+
+2. [API key Management](https://github.com/ballerina-platform/module-ballerinax-elasticsearch/tree/main/examples/api-key-management/) - Create, list, and delete API keys for secure access to Elastic Cloud resources.
 
 ## Prerequisites
 
-[//]: # (TODO: Add prerequisites)
+### **1. Setup Elastic Cloud account**
+Create an Elastic Cloud account and generate an API key with appropriate permissions for API key management.
+
+### **2. Configuration**
+Create a `Config.toml` file in the example's root directory and provide your Elastic Cloud API key configuration as follows:
+
+```toml
+elasticApiKey = "<Your-Elastic-API-Key>"
+```
 
 ## Running an example
 
