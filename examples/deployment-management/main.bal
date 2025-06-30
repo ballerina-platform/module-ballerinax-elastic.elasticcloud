@@ -56,22 +56,22 @@ public function main() returns error? {
             io:println(`  Name: ${name != "" ? name : "N/A"}`);
         }
 
-        anydata aliasValue = deployment["alias"];
+        string? aliasValue = check deployment["alias"].ensureType();
         if aliasValue is string {
             io:println(`  Alias: ${aliasValue != "" ? aliasValue : "N/A"}`);
         }
 
-        anydata healthyValue = deployment["healthy"];
+        boolean? healthyValue = check deployment["healthy"].ensureType();
         if healthyValue is boolean {
             io:println(`  Healthy: ${healthyValue.toString()}`);
         }
 
-        anydata regionValue = deployment["region"];
+        string? regionValue = check deployment["region"].ensureType();
         if regionValue is string {
             io:println(`  Region: ${regionValue != "" ? regionValue : "N/A"}`);
         }
 
-        anydata cloudProviderValue = deployment["cloudProvider"];
+        string? cloudProviderValue = check deployment["cloudProvider"].ensureType();
         if cloudProviderValue is string {
             io:println(`  Cloud Provider: ${cloudProviderValue != "" ? cloudProviderValue : "N/A"}`);
         }
