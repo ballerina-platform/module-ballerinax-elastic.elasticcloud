@@ -103,7 +103,7 @@ apiKey = "<Your API Key>"
 
 ## Quickstart
 
-To use the `Elasticcloud` connector in your Ballerina application, update the `.bal` file as follows:
+To use the `ballerinax/elastic.elasticcloud` connector in your Ballerina application, update the `.bal` file as follows:
 
 ### Step 1: Import the module
 
@@ -166,9 +166,9 @@ bal run
 
 The `Elasticcloud` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-elastic.elasticcloud/tree/main/examples/), covering the following use cases:
 
-1. [Manage Deployment](https://github.com/ballerina-platform/module-ballerinax-elastic.elasticcloud/tree/main/examples/deployment-management) - Create, list, and manage Elasticsearch deployments in your organization.
+1. [**Manage Deployment**](https://github.com/ballerina-platform/module-ballerinax-elastic.elasticcloud/tree/main/examples/deployment-management) - Create, list, and manage Elasticsearch deployments in your organization.
 
-2. [API key Management](https://github.com/ballerina-platform/module-ballerinax-elastic.elasticcloud/tree/main/examples/api-key-management/) - Create, list, and delete API keys for secure access to Elastic Cloud resources.
+2. [**API key Management**](https://github.com/ballerina-platform/module-ballerinax-elastic.elasticcloud/tree/main/examples/api-key-management/) - Create, list, and delete API keys for secure access to Elastic Cloud resources.
 
 ## Build from the source
 
