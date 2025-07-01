@@ -38,7 +38,7 @@ public function main() returns error? {
     }
 
     elasticcloud:ApiKeysResponse allKeys = check elasticClient->/users/auth/keys();
-    io:println(`Found ${allKeys.keys.length().toString()} API key(s)`);
+    io:println(`Found ${allKeys.keys.length()} API key(s)`);
 
     foreach elasticcloud:ApiKeyResponse keyItem in allKeys.keys {
         io:println(`- ID: ${keyItem.id}`);
@@ -53,7 +53,7 @@ public function main() returns error? {
     io:println("API key deleted successfully.");
 
     elasticcloud:ApiKeysResponse allKeysNew = check elasticClient->/users/auth/keys();
-    io:println(`Found ${allKeysNew.keys.length().toString()} API key(s) after deletion`);
+    io:println(`Found ${allKeysNew.keys.length()} API key(s) after deletion`);
 
     foreach elasticcloud:ApiKeyResponse keyItem in allKeysNew.keys {
         io:println(`- ID: ${keyItem.id}`);

@@ -7,7 +7,7 @@ The `ballerinax/elastic.elasticcloud` package offers APIs to connect and interac
 
 ## Setup guide
 
-### Step 1: Sign up for an Elastic Cloud Account
+### Step 1: Sign up for an Elastic Cloud account
 
 1. Visit the [Elastic Cloud registration page](https://cloud.elastic.co/registration).
 2. Fill in your account details including email, password, and organization information.
@@ -15,7 +15,7 @@ The `ballerinax/elastic.elasticcloud` package offers APIs to connect and interac
 4. Complete your profile setup and accept the terms of service.
 5. Choose your subscription plan (you can start with the free trial).
 
-### Step 2: Log in to your Elastic Cloud Account
+### Step 2: Log in to your Elastic Cloud account
 
 1. Go to the [Elastic Cloud login page](https://cloud.elastic.co/login).
 2. Enter your email and password credentials.
@@ -24,7 +24,7 @@ The `ballerinax/elastic.elasticcloud` package offers APIs to connect and interac
 ![Elastic Cloud Login](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-elastic.elasticcloud/refs/heads/main/docs/setup/resources/elastic-cloud-console-login.png)
 
 
-### Step 3: Access the Elastic Cloud Console
+### Step 3: Access the Elastic Cloud console
 
 1. After successful login, you will be redirected to the main dashboard.
 2. Here you can see your hosted deployments and manage serverless projects.
@@ -32,7 +32,7 @@ The `ballerinax/elastic.elasticcloud` package offers APIs to connect and interac
 
 ![Elastic Cloud Dashboard](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-elastic.elasticcloud/refs/heads/main/docs/setup/resources/elastic-cloud-console-dashboard.png)
 
-### Step 3: Create an Elastic Cloud Deployment
+### Step 3: Create an Elastic Cloud deployment
 
 1. Open the [Elastic Cloud Console](https://cloud.elastic.co/).
 2. Click on "Create deployment" to set up a new Elasticsearch cluster.
@@ -47,7 +47,7 @@ The `ballerinax/elastic.elasticcloud` package offers APIs to connect and interac
 
 ![Elastic Cloud Create Deployment](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-elastic.elasticcloud/refs/heads/main/docs/setup/resources/elastic-cloud-create-deployment.png)
 
-### Step 4: Navigate to Organization Settings
+### Step 4: Navigate to Organization settings
 
 1. From the dashboard, click on "Organization" in the top navigation.
 2. Go to the organization management page where you can manage members, contacts, API keys, and security settings.
@@ -55,7 +55,7 @@ The `ballerinax/elastic.elasticcloud` package offers APIs to connect and interac
 
 ![Organization Settings](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-elastic.elasticcloud/refs/heads/main/docs/setup/resources/elastic-cloud-console-organization.png)
 
-### Step 5: Create API Keys
+### Step 5: Create API keys
 
 1. In the organization settings, click on the "API keys" tab.
 2. You will see a list of existing API keys and can create new ones.
@@ -63,7 +63,7 @@ The `ballerinax/elastic.elasticcloud` package offers APIs to connect and interac
 
 ![API Keys Management](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-elastic.elasticcloud/refs/heads/main/docs/setup/resources/elastic-cloud-console-api-create.png)
 
-### Step 6: Configure Your API Key
+### Step 6: Configure Your API key
 
 1. In the "Create API key" dialog, provide the following details:
    - **Add name**: Enter a unique name for your API key (e.g., "Ballerina Connector")
@@ -77,11 +77,11 @@ The `ballerinax/elastic.elasticcloud` package offers APIs to connect and interac
 
 4. **Important**: Copy and securely store the generated API key as it won't be shown again.
 
-### Step 7: Set Environment Variables or Create Config.toml
+### Step 7: Set environment variables or create Config.toml
 
 You have an option for configuring your credentials securely:
 
-#### Option: Create Config.toml File (Good for Development)
+#### Option: Create Config.toml file
 
 Create a `Config.toml` file in your project root directory with the following content:
 
