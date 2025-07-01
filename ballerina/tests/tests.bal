@@ -18,7 +18,7 @@ import ballerina/http;
 import ballerina/test;
 import ballerina/uuid;
 
-configurable boolean isLiveServer = true;
+configurable boolean isLiveServer = false;
 configurable string apiKey = "test-api-key-12345";
 configurable string serviceUrl = isLiveServer ? "https://api.elastic-cloud.com/api/v1" : "http://localhost:9000/api/v1";
 
