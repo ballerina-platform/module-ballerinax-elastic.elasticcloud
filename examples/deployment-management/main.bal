@@ -41,7 +41,7 @@ public function main() returns error? {
     io:println(`Deployment created: ${createdDeployment.id}`);
 
     elasticcloud:DeploymentsListResponse deploymentsList = check elasticClient->/deployments();
-    io:println(`Found ${deploymentsList.deployments.length().toString()} deployment(s)`);
+    io:println(`Found ${deploymentsList.deployments.length()} deployment(s)`);
 
     if deploymentsList.deployments.length() == 0 {
         io:println("No deployments found in your account.");
@@ -52,29 +52,10 @@ public function main() returns error? {
         io:println(`- ID: ${deployment.id}`);
 
         string? name = deployment.name;
-        if name is string {
-            io:println(`  Name: ${name != "" ? name : "N/A"}`);
-        }
+        io:println(`  Name: ${name != "" ? name : "N/A"}`);
 
         string? aliasValue = check deployment["alias"].ensureType();
-        if aliasValue is string {
-            io:println(`  Alias: ${aliasValue != "" ? aliasValue : "N/A"}`);
-        }
-
-        boolean? healthyValue = check deployment["healthy"].ensureType();
-        if healthyValue is boolean {
-            io:println(`  Healthy: ${healthyValue.toString()}`);
-        }
-
-        string? regionValue = check deployment["region"].ensureType();
-        if regionValue is string {
-            io:println(`  Region: ${regionValue != "" ? regionValue : "N/A"}`);
-        }
-
-        string? cloudProviderValue = check deployment["cloudProvider"].ensureType();
-        if cloudProviderValue is string {
-            io:println(`  Cloud Provider: ${cloudProviderValue != "" ? cloudProviderValue : "N/A"}`);
-        }
+        io:println(`  Alias: ${aliasValue != "" ? aliasValue : "N/A"}`);
     }
 
     elasticcloud:SearchRequest searchRequest = {
@@ -82,21 +63,18 @@ public function main() returns error? {
     };
 
     elasticcloud:DeploymentsSearchResponse searchResults = check elasticClient->/deployments/_search.post(searchRequest);
-    io:println(`Search found ${searchResults.returnCount.toString()} deployment(s)`);
+    io:println(`Search found ${searchResults.returnCount} deployment(s)`);
 
     if searchResults.returnCount > 0 {
         foreach elasticcloud:DeploymentSearchResponse deployment in searchResults.deployments {
             io:println(`- ID: ${deployment.id}`);
 
-            string? name = deployment.name;
-            if name is string {
-                io:println(`  Name: ${name}`);
-            }
+            string name = deployment.name;
+            io:println(`  Name: ${name}`);
 
-            boolean? healthy = deployment.healthy;
-            if healthy is boolean {
-                io:println(`  Healthy: ${healthy.toString()}`);
-            }
+            boolean healthy = deployment.healthy;
+            io:println(`  Healthy: ${healthy}`);
+
         }
     } else {
         io:println("No deployments found matching the search criteria.");
@@ -104,21 +82,17 @@ public function main() returns error? {
 
     elasticcloud:SearchRequest allDeploymentsSearch = {};
     elasticcloud:DeploymentsSearchResponse allSearchResults = check elasticClient->/deployments/_search.post(allDeploymentsSearch);
-    io:println(`Search API returned ${allSearchResults.returnCount.toString()} deployment(s)`);
+    io:println(`Search API returned ${allSearchResults.returnCount} deployment(s)`);
 
     if allSearchResults.returnCount > 0 {
         foreach elasticcloud:DeploymentSearchResponse deployment in allSearchResults.deployments {
             io:println(`- ID: ${deployment.id}`);
 
-            string? name = deployment.name;
-            if name is string {
-                io:println(`  Name: ${name}`);
-            }
+            string name = deployment.name;
+            io:println(`  Name: ${name}`);
 
-            boolean? healthy = deployment.healthy;
-            if healthy is boolean {
-                io:println(`  Healthy: ${healthy.toString()}`);
-            }
+            boolean healthy = deployment.healthy;
+            io:println(`  Healthy: ${healthy}`);
         }
     }
 }
