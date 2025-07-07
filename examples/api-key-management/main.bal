@@ -17,11 +17,11 @@
 import ballerina/io;
 import ballerinax/elastic.elasticcloud;
 
-configurable string elasticApiKey = ?;
+configurable string apiKey = ?;
 
 public function main() returns error? {
     elasticcloud:ApiKeysConfig config = {
-        authorization: "ApiKey " + elasticApiKey
+        authorization: "ApiKey " + apiKey
     };
 
     elasticcloud:Client elasticClient = check new (config);
