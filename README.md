@@ -89,13 +89,12 @@ The `ballerinax/elastic.elasticcloud` package offers APIs to connect and interac
 
 You have an option for configuring your credentials securely:
 
-#### Option: Create Config.toml file
+### Create Config.toml file
 
 Create a `Config.toml` file in your project root directory with the following content:
 
 ```toml
 # Elastic Cloud Configuration
-isLiveServer=true
 apiKey = "<Your API Key>"
 ```
 
@@ -118,16 +117,16 @@ import ballerinax/elastic.elasticcloud;
 1. Create a `Config.toml` file and configure the obtained credentials in the above steps as follows:
 
 ```bash
-elasticApiKey = "<Your API Key>"
+apiKey = "<Your API Key>"
 ```
 
 2. Create an `elasticcloud:ApiKeysConfig` with the obtained API key and initialize the connector with it.
 
 ```ballerina
-configurable string elasticApiKey = ?;
+configurable string apiKey = ?;
 
 final elasticcloud:Client elasticClient = check new({
-    authorization: "ApiKey " + elasticApiKey
+    authorization: "ApiKey " + apiKey
 });
 ```
 

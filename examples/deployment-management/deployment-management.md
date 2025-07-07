@@ -15,7 +15,7 @@ Create an Elastic Cloud account and generate an API key with appropriate permiss
 Create a `Config.toml` file in the example's root directory and provide your Elastic Cloud API key configuration as follows:
 
 ```toml
-elasticApiKey = "<Your-Elastic-API-Key>"
+apiKey = "<Your-Elastic-API-Key>"
 ```
 
 ## **Run the example**
