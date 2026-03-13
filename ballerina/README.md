@@ -1,9 +1,15 @@
 ## Overview
 
-
 Elastic Cloud is a powerful cloud-hosted Elasticsearch service provided by Elastic, offering scalable search and analytics capabilities with enterprise-grade security and management features.
 
-The `ballerinax/elastic.elasticcloud` package offers APIs to connect and interact with Elastic Cloud API endpoints, enabling seamless integration with Elasticsearch deployments, cluster management, security configurations, and data operations.
+The Elastic Cloud connector offers APIs to connect and interact with Elastic Cloud API endpoints, enabling seamless integration with Elasticsearch deployments, cluster management, security configurations, and data operations.
+
+### Key Features
+
+- Scalable search and analytics capabilities
+- Enterprise-grade security and management features
+- Seamless integration with Elasticsearch deployments
+- Cluster management and data operations support
 
 ## Setup guide
 
